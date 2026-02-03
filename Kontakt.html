@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Astrid-Lindgren-Schule Duisburg</title>
+    <style>
+        /* Basis-Styles - Identisch zu UnsereSchule.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        /* Header */
+        header {
+            background-color: rgba(52, 73, 94, 0.7);
+            color: white;
+            padding: 0.7rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+        }
+        .logo-container { display: flex; align-items: center; }
+        .logo { height: 60px; width: auto; }
+        .contact-info { display: flex; gap: 5rem; align-items: center; }
+        .contact-item { display: flex; align-items: center; gap: 0.7rem; font-size: 1.2rem; }
+        .contact-icon { height: 25px; width: auto; }
+        /* Menü */
+        .menu-toggle { display: none; }
+        .menu-button {
+            display: flex; flex-direction: column; justify-content: space-between;
+            width: 25px; height: 18px; cursor: pointer;
+        }
+        .menu-button span {
+            display: block; height: 2.5px; width: 100%;
+            background-color: white; border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .menu {
+            position: absolute; top: 100%; right: 0;
+            background-color: rgba(52, 73, 94, 0.7); width: 200px;
+            border-radius: 0 0 0 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.3s ease; backdrop-filter: blur(10px);
+            background-image: url('001.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        .menu::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7); z-index: -1;
+            border-radius: 0 0 0 10px;
+        }
+        .menu-toggle:checked ~ .menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .menu-toggle:checked ~ .menu-button span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px); background-color: white;
+        }
+        .menu-toggle:checked ~ .menu-button span:nth-child(2) { opacity: 0; }
+        .menu-toggle:checked ~ .menu-button span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -5px); background-color: white;
+        }
+        .menu ul { list-style: none; padding: 0; }
+        .menu li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .menu li:last-child { border-bottom: none; }
+        .menu a {
+            display: block; padding: 12px 20px; color: white;
+            text-decoration: none; transition: all 0.3s; text-align: center;
+        }
+        .menu a:hover { background-color: rgba(61, 86, 110, 0.5); color: white; }
+        /* Hauptinhalt */
+        main {
+            max-width: 1200px; margin: 0 auto;
+            padding: 2.5rem 2rem 2rem; color: #2c3e50;
+        }
+        .intro { text-align: center; margin-bottom: 3rem; padding: 0 1rem; }
+        .intro h1 { font-size: 2.2rem; color: #2c3e50; margin-bottom: 1rem; }
+        .intro p { font-size: 1.1rem; max-width: 800px; margin: 0 auto; color: #2c3e50; }
+
+        /* Kontakt-Seiten spezifische Styles */
+        .kontakt-container {
+            background: white; border-radius: 8px; padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;
+            border-top: 6px solid #c0d110; /* Grün für Kontakt */
+        }
+        .kontakt-container h2 {
+            color: #c0d110; margin: 0 0 2rem 0; font-size: 1.8rem;
+            padding-bottom: 1rem; border-bottom: 2px solid #f0f2f5;
+        }
+        .kontakt-container h3 {
+            color: #2c3e50; margin: 2.5rem 0 1.5rem 0; font-size: 1.5rem;
+        }
+        .kontakt-container h4 {
+            color: #c0d110; margin: 1.5rem 0 0.8rem 0; font-size: 1.2rem;
+        }
+        .kontakt-container p, .kontakt-container li {
+            margin-bottom: 1rem; font-size: 1.1rem; line-height: 1.7;
+        }
+        .kontakt-container ul, .kontakt-container ol {
+            margin: 1rem 0 1.5rem 2rem; line-height: 1.7;
+        }
+        .kontakt-container strong { font-weight: 600; }
+        .kontakt-container em { font-style: italic; }
+
+        /* Kontakt-Bereiche */
+        .kontakt-bereich {
+            margin-bottom: 3rem; padding-bottom: 2.5rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .kontakt-bereich:last-of-type { border-bottom: none; }
+        .kontakt-personen {
+            display: flex; flex-wrap: wrap; gap: 3rem;
+            margin-top: 1.5rem;
+        }
+        .person {
+            flex: 1; min-width: 300px;
+        }
+        .person-details {
+            background-color: #f8f9fa; border-radius: 8px;
+            padding: 1.5rem; margin-top: 1rem;
+            border-left: 4px solid #c0d110; /* Grün */
+        }
+        .person-bilder {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .person-bild {
+            width: 150px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .kontakt-info-item {
+            display: flex; align-items: flex-start; gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .kontakt-icon { height: 20px; width: auto; margin-top: 0.2rem; }
+
+        /* Neue IServ-Styles */
+        .iserv-content {
+            margin-top: 2rem;
+        }
+        .iserv-intro {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #c0d110;
+        }
+        .app-download {
+            margin: 2rem 0;
+        }
+        .app-buttons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .app-link {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .app-link:hover {
+            transform: translateY(-3px);
+        }
+        .app-image {
+            height: 60px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .video-container {
+            margin: 2.5rem 0;
+            max-width: 800px;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #000;
+        }
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .video-caption {
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .download-link {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(52, 73, 94, 0.7); color: white;
+            padding: 1.2rem 2rem; margin-top: 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px); background-image: url('001.jpg');
+            background-size: cover; background-position: center;
+            background-attachment: fixed; position: relative;
+        }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7); z-index: -1;
+        }
+        .footer-left { font-size: 1rem; }
+        .footer-contact { display: flex; gap: 5rem; align-items: center; }
+        .footer-logo { height: 50px; width: auto; }
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .contact-info, .footer-contact {
+                flex-direction: column; gap: 1rem; align-items: flex-end;
+            }
+        }
+        @media (max-width: 900px) {
+            .kontakt-personen { flex-direction: column; }
+            .person { min-width: 100%; }
+            .app-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0.5rem 1rem; flex-wrap: wrap; }
+            .logo { height: 40px; }
+            .contact-info { display: none; }
+            main { padding: 2rem 1rem 1rem; }
+            .intro h1 { font-size: 1.8rem; }
+            .kontakt-container { padding: 1.5rem; }
+            .kontakt-container h2 { font-size: 1.5rem; }
+            .kontakt-container h3 { font-size: 1.3rem; }
+            .person-bilder {
+                justify-content: center;
+            }
+            .app-image {
+                height: 50px;
+            }
+            .video-container {
+                margin: 1.5rem 0;
+            }
+            footer {
+                padding: 1rem; flex-direction: column;
+                gap: 1.5rem; text-align: center;
+            }
+            .footer-contact { align-items: center; gap: 1.5rem; }
+            .footer-logo { height: 35px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="logo">
+        </div>
+        <div class="contact-info">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button">
+            <span></span><span></span><span></span>
+        </label>
+        <nav class="menu">
+            <ul>
+                <li><a href="Aktuelles.html">Aktuelles</a></li>
+                <li><a href="UnsereSchule.html">Unsere Schule</a></li>
+                <li><a href="Termine.html">Termine</a></li>
+                <li><a href="Kontakt.html">Kontakt</a></li>
+                <li><a href="Impressum.html">Impressum</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="kontakt-container">
+            <!-- KONTAKT -->
+            <div class="kontakt-bereich">
+                <h2>Kontakt</h2>
+                <h3>Wichtige Ansprechpartner</h3>
+                <div class="kontakt-personen">
+                    <div class="person">
+                        <h4>Schulleitung</h4>
+                        <p><strong>Frau Niermann</strong></p>
+                        <div class="person-bilder">
+                            <img src="Niermann.jpg" alt="Frau Niermann - Schulleitung" class="person-bild">
+                        </div>
+                        <div class="person-details">
+                            <div class="kontakt-info-item">
+                                <img src="icon1.png" alt="Telefon" class="kontakt-icon">
+                                <span><strong>Telefon:</strong> 0203/31879917</span>
+                            </div>
+                            <div class="kontakt-info-item">
+                                <img src="icon2.png" alt="Fax" class="kontakt-icon">
+                                <span><strong>Telefax:</strong> 0203/334745</span>
+                            </div>
+                            <div class="kontakt-info-item">
+                                <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
+                                <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="person">
+                        <h4>Sekretariat</h4>
+                        <p><strong>Frau Weber und Frau Hofmann</strong></p>
+                        <div class="person-bilder">
+                            <img src="Weber.jpg" alt="Frau Weber - Sekretariat" class="person-bild">
+                            <img src="Hofmann.jpg" alt="Frau Hofmann - Sekretariat" class="person-bild">
+                        </div>
+                        <div class="person-details">
+                            <p><strong>Öffnungszeiten:</strong></p>
+                            <p>7:30 Uhr - 12:30 Uhr</p>
+                            <div class="kontakt-info-item">
+                                <img src="icon1.png" alt="Telefon" class="kontakt-icon">
+                                <span><strong>Telefon:</strong> 0203/332667</span>
+                            </div>
+                            <div class="kontakt-info-item">
+                                <img src="icon2.png" alt="Fax" class="kontakt-icon">
+                                <span><strong>Telefax:</strong> 0203/334745</span>
+                            </div>
+                            <div class="kontakt-info-item">
+                                <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
+                                <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISERV RUBRIK -->
+            <div class="kontakt-bereich">
+                <h2>IServ</h2>
+                
+                <div class="iserv-intro">
+                    <p>IServ ist unser Schulserver, der zahlreiche Funktionen für den digitalen Unterricht und die Kommunikation zwischen Schule, Schülern und Eltern bietet.</p>
+                </div>
+
+                    <div class="app-download">
+                        <h3>IServ-Zugang</h3>
+                        <p>Für einen komfortablen Zugriff auf IServ stehen mobile Apps für beide Plattformen zur Verfügung:</p>
+                        
+                        <div class="app-buttons">
+                            <a href="https://play.google.com/store/apps/details?id=de.iserv.client" target="_blank" class="app-link">
+                                <img src="google-play.png" alt="IServ im Google Play Store" class="app-image">
+                            </a>
+                            <a href="https://apps.apple.com/de/app/iserv/id1509477468" target="_blank" class="app-link">
+                                <img src="app-store.png" alt="IServ im Apple App Store" class="app-image">
+                            </a>
+                        </div>
+
+                        <p><br>IServ ist zusätzlich auch im Browser zu erreichen:</p>
+                        <div class="person-details">
+                        <p><strong>IServ-Webadresse:</strong> <a href="https://du-als-monti-ggs.de" target="_blank">https://du-als-monti-ggs.de</a></p>
+                        <p><strong>Hinweis:</strong> Hier müssen jedes Mal ihre Zugangsdaten eingegeben werden!</p>
+                        </div>
+                    </div>
+
+                    <h3>Anleitungen und Hilfestellungen</h3>
+                    <p>Für die Nutzung von IServ stehen verschiedene Hilfestellungen zur Verfügung:</p>
+                    <ul>
+                        <li>Nutzung des internen Mailsystems</li>
+                        <li>Krankmeldung für den Unterricht</li>
+                        <li>Abmeldung für die OGS</li>
+                        <li>Wechsel des Nutzers in der App (bei mehreren Kindern)</li>
+                    </ul>
+                    <div class="person-details">
+                        <h4>IT-Support und Hilfe</h4>
+                        <p>Bei anderen Problemen oder technischen Fragen wenden Sie sich bitte an:</p>
+                        <div class="kontakt-info-item">
+                            <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
+                            <span><strong>E-Mail:</strong> marc.backhaus@du-als-monti-ggs.de</span>
+                        </div>
+                    </div>
+
+                    <div class="video-container">
+                        <h4>Nutzung des internen Mailsystems</h4>
+                        <p>In diesem Video zeigen wir, wie Sie die Lehrer unserer Schule per Mail erreichen können: </p>
+                        
+                        <div class="video-wrapper">
+                            <video controls>
+                                <source src="Mailsystem.mp4" type="video/mp4">
+                                Ihr Browser unterstützt das Video-Tag nicht. Bitte aktualisieren Sie Ihren Browser.
+                            </video>
+                        </div>
+                        <p class="video-caption">Video: Nutzung des internen Mailsystems</p>
+                    </div>
+
+                    <div class="video-container">
+                        <h4>Krankmeldung für den Unterricht</h4>
+                        <p>In diesem Video zeigen wir, wie Sie eine Krankmeldung für den Unterricht über IServ absenden können:</p>
+                        
+                        <div class="video-wrapper">
+                            <video controls>
+                                <source src="Krankmeldung.mp4" type="video/mp4">
+                                Ihr Browser unterstützt das Video-Tag nicht. Bitte aktualisieren Sie Ihren Browser.
+                            </video>
+                        </div>
+                        <p class="video-caption">Video: So melden Sie Ihr Kind über IServ krank</p>
+                        <h4>Abmeldung für die OGS</h4>
+                        <div class="download-links">
+                    <a href="OGS_Anleitung_Abwesenheitstool.pdf" class="download-link">So melden Sie ihr Kind für die OGS ab:</a>
+                    </div>
+                    <p><small>(Link zum PDF-Dokument "OGS_Anleitung_Abwesenheitstool.pdf")</small></p>
+
+                    <div class="video-container">
+                        <h4>Wechsel des Nutzers in der App (bei mehreren Kindern)</h4>
+                        <p>In diesem Video zeigen wir, wie Sie den Nutzer wechseln können:</p>
+                        
+                        <div class="video-wrapper">
+                            <video controls>
+                                <source src="Accountwechsel.mp4" type="video/mp4">
+                                Ihr Browser unterstützt das Video-Tag nicht. Bitte aktualisieren Sie Ihren Browser.
+                            </video>
+                        </div>
+                        <p class="video-caption">Video: Wechsel des Nutzers in der App</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-left">
+            <p>&copy;2025 Astrid-Lindgren-Schule Duisburg</p>
+        </div>
+        <div class="footer-contact">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="footer-logo">
+    </footer>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria Montessori Pädagogik - Astrid-Lindgren-Schule Duisburg</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Header-Stil - Transparent mit Fake-Hintergrund */
+        header {
+            background-color: rgba(52, 73, 94, 0.7);
+            color: white;
+            padding: 0.7rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            /* Fake-Hintergrund nur für den Header */
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay für den Header, um Transparenz zu kontrollieren */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-icon {
+            height: 25px;
+            width: auto;
+        }
+
+        /* Menü-Stil - Transparent mit gleichem Fake-Hintergrund */
+        .menu-toggle {
+            display: none;
+        }
+
+        .menu-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .menu-button span {
+            display: block;
+            height: 2.5px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            width: 200px;
+            border-radius: 0 0 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            /* Gleicher Fake-Hintergrund wie Header */
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay für das Menü */
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+            border-radius: 0 0 0 10px;
+        }
+
+        .menu-toggle:checked ~ .menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+            background-color: white;
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -5px);
+            background-color: white;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu li:last-child {
+            border-bottom: none;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background-color: rgba(61, 86, 110, 0.5);
+            color: white;
+        }
+
+        /* Hauptinhalt mit dunkelgrauer Schrift */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem;
+            color: #2c3e50;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .intro h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #2c3e50;
+        }
+
+        /* Montessori spezifische Styles */
+        .montessori-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border-top: 6px solid #c0d110; /* Grün für Montessori */
+        }
+
+        .montessori-content h2 {
+            color: #c0d110;
+            margin: 2.5rem 0 1.5rem 0;
+            font-size: 1.8rem;
+        }
+
+        .montessori-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .montessori-content h3 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem;
+            font-size: 1.4rem;
+        }
+
+        .montessori-content p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .montessori-content ul, .montessori-content ol {
+            margin: 1rem 0 1rem 2rem;
+            line-height: 1.7;
+        }
+
+        .montessori-content li {
+            margin-bottom: 0.8rem;
+        }
+
+        .quote {
+            background-color: #f8f9fa;
+            border-left: 4px solid #c0d110;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .montessori-content strong {
+            font-weight: 600;
+        }
+
+        .montessori-content em {
+            font-style: italic;
+        }
+
+        .section-number {
+            color: #c0d110;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .sub-section {
+            margin-left: 1.5rem;
+        }
+
+        .image-placeholder {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #ddd;
+        }
+
+        .image-placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #c0d110;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 3rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #a9b80e;
+        }
+
+        /* Footer - Transparent mit gleichem Design wie Header */
+        footer {
+            background-color: rgba(52, 73, 94, 0.7);
+            color: white;
+            padding: 1.2rem 2rem;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Overlay für den Footer */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+        }
+
+        .footer-left {
+            font-size: 1rem;
+        }
+
+        .footer-contact {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-end;
+            }
+            
+            .footer-contact {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+            
+            .contact-info {
+                display: none;
+            }
+            
+            main {
+                padding: 2rem 1rem 1rem;
+            }
+            
+            .intro h1 {
+                font-size: 1.8rem;
+            }
+            
+            .montessori-content {
+                padding: 1.5rem;
+            }
+            
+            .montessori-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .montessori-content h3 {
+                font-size: 1.2rem;
+            }
+            
+            footer {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            
+            .footer-contact {
+                align-items: center;
+                gap: 1.5rem;
+            }
+            
+            .footer-logo {
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="logo">
+        </div>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        
+        <nav class="menu">
+            <ul>
+                <li><a href="Aktuelles.html">Aktuelles</a></li>
+                <li><a href="UnsereSchule.html">Unsere Schule</a></li>
+                <li><a href="Termine.html">Termine</a></li>
+                <li><a href="Kontakt.html">Kontakt</a></li>
+                <li><a href="Impressum.html">Impressum</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>Maria Montessori Pädagogik</h1>
+        </section>
+        
+        <section class="montessori-content">
+            <h2>Unsere Astrid Lindgren Schule und die Pädagogik von Maria Montessori</h2>
+            
+            <p>In Duisburg hatte sich im Jahre 2005 eine Elterninitiative an das Schulamt gewandt, weil der Bedarf nach einer Grundschule im Sinne der Montessori Pädagogik vorhanden war. Das Schulamt war von dieser Idee begeistert und suchte eine Schule, die als Vorreiter in Duisburg einen solchen Zweig aufbauen sollte.</p>
+            
+            <p>Das Kollegium der Astrid Lindgren Schule stellte sich gerne dieser Herausforderung und begann mit den Vorüberlegungen und umfangreichen Planungen. Denn neben der pädagogischen Ausrichtung musste auch das finanzielle Konzept stehen.</p>
+            
+            <p>Zum Schuljahr 2007/2008 hat die Astrid-Lindgren-Schule neben der gewohnten Arbeit in Jahrgangsklassen mit dem Aufbau eines Montessori-Zweiges begonnen. Seit dem Schuljahr 2015/2016 können nun acht Klassen nach dem Prinzip der Montessori-Pädagogik unterrichtet werden.</p>
+            
+            <h2>Wer war Maria Montessori?</h2>
+            
+            <p>Maria Montessori (1870 – 1952) gilt als die bekannteste Pädagogin des 20. Jahrhunderts. Im Alter von 20 Jahren setzte sie gegen viele Widerstände ihre Zulassung zum Medizinstudium durch und wurde als erste Frau Italiens zum Doktor der Medizin promoviert.</p>
+            
+            <p>Als Kinderärztin in der psychiatrischen Universitätsklinik Rom sammelte sie bei der Behandlung und Betreuung geistig behinderter Kinder wichtige Erfahrungen. Bei den französischen Ärzten Itard und Seguin fand sie Methoden und Materialien, die die sinnliche Wahrnehmung geistig behinderter Kinder schulen und damit ihren Intellekt aktivieren sollten. Diese Ideen wurden von Maria Montessori aufgegriffen und weiterentwickelt. Sie erzielte damit erstaunliche Erfolge, die Aufsehen erregten.</p>
+            
+            <p>Maria Montessori begann ihre Erfahrungen auch für die Erziehung normaler Kinder auszuwerten, denn, so schrieb sie:</p>
+            
+            <div class="quote">
+                "Während alle die Fortschritte meiner Idioten bewunderten, machte ich mir Gedanken über die Gründe, aus denen glückliche und gesunde Kinder in gewöhnlichen Schulen auf so niedrigem Niveau gehalten werden, dass sie bei Prüfungen der Intelligenz von meinen unglücklichen Schülern eingeholt wurden."
+            </div>
+            
+            <p>Montessori entwickelte ihre Methode zuerst für die Kleinkinderziehung und bald auch für das Grundschulalter. Ihre "Montessori-Erziehung" breitete sich ebenso wie die Literatur Montessoris rasch in vielen Ländern aus.</p>
+            
+            <h2>Grundgedanken der Montessori-Pädagogik</h2>
+            
+            <div class="quote">
+                "Hilf mir, es selbst zu tun!"
+            </div>
+            
+            <p>Diese Bitte eines Kindes wurde zum Leitmotiv Maria Montessoris Erziehungskonzeptes. Aus der genauen Beobachtung von Kindern zog die Ärztin und Pädagogin wichtige Schlüsse: Kinder können und wollen lernen, selbständig und ohne Zwang.</p>
+            
+            <p>Voraussetzungen sind entwicklungsgemäße Materialien und die Freiheit, sie ihrem Entwicklungsstand entsprechend wählen zu können. Die Lehrerinnen und Lehrer verstehen sich dabei als Beobachter und Helfer. Montessori hat eine Pädagogik entwickelt, die das Kind in seiner Individualität akzeptiert und seinen eigenen Entfaltungskräften Raum gibt.</p>
+            
+            <p>Heutzutage arbeiten weltweit Schulen und Kindergärten erfolgreich nach der Pädagogik Maria Montessoris, indem jedes Kind individuell begleitet und gefördert wird. So erfährt das Kind den schulischen Lernprozess ohne die sonst oft üblichen Misserfolgs- und Konkurrenzerlebnisse.</p>
+            
+            <h3>Sensible Phasen</h3>
+            
+            <p>Montessori geht davon aus, dass jedes Kind über "einen inneren Bauplan seiner Seele verfügt und übervorbestimmte Richtlinien für seine Entwicklung". Im Kind ist die Kraft vorhanden, diesen Bauplan zu verwirklichen, indem es sich aktiv mit seiner Umwelt auseinandersetzt. Die zeitliche Umsetzung dieses Bauplans kann individuell sehr unterschiedlich sein.</p>
+            
+            <p>Ein unzeitgemäßes Eingreifen von Erwachsenen in diesen Aufbauprozess kann die Verwirklichung dieses Bauplanes jedoch unmöglich machen oder zumindest behindern.</p>
+            
+            <p>Während seiner Entwicklung durchläuft das Kind verschiedene Empfänglichkeitsperioden von unterschiedlicher Dauer, die sog. Sensiblen Phasen. In diesen Phasen besitzt das Kind eine besondere Bereitschaft, einzelne Fähigkeiten (z.B. Laufen, Sprechen, Schreiben, Lesen) zu erwerben. Hat das Kind in dieser Phase Erwachsene um sich, die es darin bestärken, jedoch weder bedrängen noch behindern, und eine anregende Umgebung, so wird es die entsprechende Fähigkeit freudig und aus eigenem Antrieb lernen. Fähigkeiten und Fertigkeiten, die außerhalb der entsprechenden sensiblen Phasen gelernt werden sollen, können nicht mit der gleichen Leichtigkeit gemeistert werden und das Lernen geschieht nicht so selbstverständlich.</p>
+            
+            <h3>Selbsttätigkeit und Bewegung</h3>
+            
+            <div class="quote">
+                "Was du mir sagst, vergesse ich.<br>
+                Was du mir zeigst, daran erinnere ich mich.<br>
+                Was du mich tun lässt, das verstehe ich."<br>
+                (Konfuzius 500 v. Chr.)
+            </div>
+            
+            <p>Alle menschlichen Funktionen entwickeln sich aufgrund von Aktivität. Sprechen lernen wir durch Sprechen, Laufen durch Laufen und Radfahren durch Radfahren usw. Selbsttätigkeit und Bewegung haben daher grundlegende Bedeutung für die physische und psychische Entwicklung, für Willen, Charakter sowie für Unabhängigkeit und Selbstständigkeit des Menschen. Die handelnde Bewegung ist also ein wesentlicher Faktor zum Aufbau sämtlicher Fähigkeiten.</p>
+            
+            <p>Die kindliche Auseinandersetzung mit der Umwelt erfolgt fast ausschließlich durch Bewegung. Daher durchzieht die Forderung nach Bewegung und Eigenaktivität des Kindes die gesamte Montessori-Pädagogik.</p>
+            
+            <p>Dabei ist laute Aktivität, die sich nur um der Bewegung willen produziert und keinen Widerhall in der räumlich-gegenständlichen Umgebung findet, nicht das, was Montessori anstrebte. Jedes Handeln soll sinnvoll und in das Leben des Kindes einbezogen sein. Die Freiheit des Kindes, seinem Bewegungsdrang nachzugeben, soll nicht mit Lärm und Chaos verbunden sein.</p>
+            
+            <p>Im Gegenteil: Maria Montessori beobachtete, dass Kinder, die sich einer freien Arbeit zuwenden und diese selbsttätig durchführen, zu ruhiger Aktivität, Sammlung und Konzentration fähig sind.</p>
+            
+            <h3>Polarisation der Aufmerksamkeit</h3>
+            
+            <p>Montessori entdeckte, dass es Kindern gelingen kann, sich völlig zu konzentrieren. Diese Konzentration ist offensichtlich inneren Ursprungs und tritt auf, wenn ein Mensch sich aus eigenem, innerstem Interesse einer selbstgewählten Sache hingibt. Ein Nachlassen der Konzentration kann erst beobachtet werden, wenn die selbstgewählte Aufgabe gelöst wurde. Das Kind wirkt dann ausgeglichen und zufrieden.</p>
+            
+            <p>Ziel einer jeden Pädagogik muss die Erreichung dieses Zustandes der vertieften Konzentration sein. Montessori hob mehrfach hervor, dass dieses Lernerlebnis zu Ausgeglichenheit und Zufriedenheit führt und einen Zustand, den Montessori "Normalisation" nennt, bewirkt.</p>
+            
+            <h2>Konsequenzen für den pädagogischen Alltag in einer Montessori-Klasse</h2>
+            
+            <p>Die Montessoripädagogik unterscheidet sich vom Regelunterricht durch ihren WEG, die Ziele der Richtlinien und Lehrpläne des Landes NRW zu erreichen.</p>
+            
+            <p>Ein vorrangiges Ziel der schulischen Arbeit ist dabei die Selbstständigkeit des Kindes und sein verantwortliches Handeln sich selbst, anderen und dem Umfeld gegenüber. Zur Bildung der Gesamtpersönlichkeit wird dem Kind im differenzierenden Unterricht zugestanden, die Arbeit, die Sozialform sowie sein Arbeitstempo mitzubestimmen. Dem einzelnen Kind wird genau damit jeden Morgen in der "Freiarbeit" genüge getan. In jeder Freiarbeitsklasse lernen nach der Aufbauphase etwa 24 Kinder aus allen vier Jahrgängen gemeinsam. Der Klassenraum ist dabei eine "vorbereitete Umgebung", ein Raum, in dem didaktisch aufbereitete Arbeitsmaterialien bereit stehen, die die Kinder für ihre selbstständige Arbeit benötigen. Es ist Material für die Hand des Kindes, mithilfe dessen es seine geistige und körperliche Geschicklichkeit schult und sich Lerninhalte aneignet. Die Lehrkraft, die für die "vorbereitete Umgebung" Sorge zu tragen hat, lehrt die Kinder im Gebrauch der Arbeitsmaterialien. Sie ist aber auch Begleiterin in Lernprozessen und Beobachterin, um dem Kind beratend zur Seite zu stehen.</p>
+            
+            <p>Doch diese Besonderheiten sind im Folgenden ausführlicher dargestellt:</p>
+            
+            <h3>Die Notwendigkeit eines individualisierten Lernprozesses</h3>
+            
+            <p>Eine konsequente Umsetzung der Beobachtungen Montessoris erfordert eine größtmögliche Individualisierung des Lernprozesses. Indem das Kind die Möglichkeit erhält, Lerninhalt und Lerntempo selber zu bestimmen, kann es die Kraft der sensiblen Phasen optimal nutzen. Dabei wird eine Überforderung so wie Unterforderung vermieden, das Kind lernt stets auf seinem individuellen Niveau. Dadurch wird sichergestellt, dass die eigene Motivation erhalten bleibt.</p>
+            
+            <h3>Die freie Wahl der Arbeit (Freiarbeit)</h3>
+            
+            <p>Die Freiarbeit in den Montessoriklassen nimmt die ersten zwei Unterrichtsstunden ein. Die Freiarbeit ist das Kernstück der Montessori-Erziehung. Die Forderung, die Kinder ihre Beschäftigung frei wählen zu lassen, ist eine logische Schlussfolgerung aus den oben genannten Grundgedanken der Montessori-Pädagogik.</p>
+            
+            <p>Das Kind hat…</p>
+            
+            <ul>
+                <li>die freie Wahl des Themas/Lernmaterials</li>
+                <li>die freie Wahl des Lernortes (Tisch oder Teppich, Flur oder Klassenzimmer)</li>
+                <li>die freie Wahl des Lernpartners (allein, mit Partner oder in der Kleingruppe)</li>
+            </ul>
+            
+            <p>Es versteht sich von selbst, dass sich die Freiarbeit nur in einer angstfreien Atmosphäre ohne Zwang, Leistungs- und Gruppendruck realisieren lässt.</p>
+            
+            <p>Die Freiarbeit offenbart der Lehrkraft Begabungen und ermöglicht Beobachtungen individueller Lernvoraussetzungen und Lernfortschritte. Daran richtet sie das Angebot des Materials und die Art der individuellen Unterstützung des Kindes aus.</p>
+            
+            <p>Die Freiheit in der Freiarbeit kann nicht grenzenlos sein. Die Freiheit des einzelnen endet dort, wo die Freiheit der anderen beeinträchtigt wird.</p>
+            
+            <p>Die Kinder wählen nach eigener Entscheidung in Absprache mit der Lehrerin, was und womit sie arbeiten. Das Montessorimaterial in einer sorgfältig vorbereiteten Umgebung hilft ihnen, eine Entscheidung zu treffen und dient als "Schlüssel zur Welt". Arbeitsrhythmus und Arbeitsdauer liegen in der Verantwortung des Kindes. Die Lehrerin übernimmt die Rolle der aufmerksamen, helfenden Begleiterin. In der Zeit der Freiarbeit arbeiten Kinder aus vier Jahrgangsstufen zusammen.</p>
+            
+            <h3>Die vorbereitete Umgebung</h3>
+            
+            <p>Eine der Hauptaufgaben der Lehrkraft besteht bei Maria Montessori in der Gestaltung der vorbereiteten Umgebung, die sowohl das Klassenzimmer als auch die weitere Schulumgebung umfasst. Diese von der Lehrkraft bewusst geplante Umgebung ist sowohl Lebens-, Lern- und Entwicklungsraum, der den Bedürfnissen der Kinder angepasst ist, als auch an den Erfordernissen der Kultur und der Zivilisation ausgerichtet, in die das Kind hineinwachsen soll.</p>
+            
+            <p>Sie ist der äußere Rahmen für die Freiarbeit und ermöglicht es dem Kind, selbstständig und weitgehend unabhängig vom Erwachsenen zu lernen.</p>
+            
+            <p>Damit das Kind sich allein in der vorbereiteten Umgebung zurechtfindet und selbstständig arbeiten kann, muss die vorbereitete Umgebung durch eine bestimmte Ordnung strukturiert sein. Diese äußere Ordnung gibt Orientierungshilfe, die auch im Geist Ordnung stiftet. Alle Materialien sind darum in offenen Regalen untergebracht, frei zugänglich und nach Lernbereichen übersichtlich eingeordnet.</p>
+            
+            <p>Durch den notwendigen, sorgfältigen Umgang mit den Materialien leistet die Freiarbeit einen Beitrag zum achtsamen Umgang mit den Dingen und lehrt die Kinder, Ordnungsstrukturen einzuhalten und als Lebenshilfe zu begreifen.</p>
+            
+            <h3>Das Montessorimaterial als Schlüssel zur Welt</h3>
+            
+            <p>Lernen an der Montessori-Grundschule bedeutet immer auch "Be-greifen" anhand einer Vielzahl begleitender Materialien. Dabei handelt es sich in erster Linie um Entwicklungsmaterialien für die Sinne und Materialien, die die sprachliche und mathematische Entwicklung fördern und für den Sachunterricht begleitend Erkenntnisse vermitteln.</p>
+            
+            <p>Alle Materialien ermöglichen selbsttätige Problemlösungen. Sie bieten eine Eigenkontrolle. Dadurch wird das Kind zur Selbstverantwortung erzogen. Das didaktische Material erweckt durch Ästhetik der Form sowie durch den klaren überschaubaren sachlichen Gehalt die Neugier und Lernlust der Kinder.</p>
+            
+            <h3>Jahrgangsmischung</h3>
+            
+            <p>Ein wesentliches Merkmal der Montessori-Schule ist die Altersmischung. Durch das Zusammenlernen verschiedener Altersstufen entsteht ein natürliches soziales Umfeld, in dem sich die Kinder wechselnder Rollen erfahren können.</p>
+            
+            <p>Die Kinder können sich gegenseitig helfen: Die Jüngeren sehen, welche Regeln es in der Klasse gibt und so leichter verinnerlichen. Sie schauen sich "nebenbei" Arbeitsverhalten und Handhabungen des Materials ab. Die Älteren können oftmals Hilfestellung leisten, unterstützen, erste Fragen beantworten und wachsen in den vier Grundschuljahren so in ihren sozialen Aufgaben.</p>
+            
+            <a href="UnsereSchule.html" class="back-button">← Zurück zu "Unsere Schule"</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <p>&copy;2025 Astrid-Lindgren-Schule Duisburg</p>
+        </div>
+        
+        <div class="footer-contact">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        
+        <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="footer-logo">
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termine - Astrid-Lindgren-Schule Duisburg</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Header-Stil - Transparent mit Fake-Hintergrund */
+        header {
+            background-color: rgba(52, 73, 94, 0.7);
+            color: white;
+            padding: 0.7rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            /* Fake-Hintergrund nur für den Header */
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay für den Header, um Transparenz zu kontrollieren */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-icon {
+            height: 25px;
+            width: auto;
+        }
+
+        /* Menü-Stil - Transparent mit gleichem Fake-Hintergrund */
+        .menu-toggle {
+            display: none;
+        }
+
+        .menu-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .menu-button span {
+            display: block;
+            height: 2.5px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            width: 200px;
+            border-radius: 0 0 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            /* Gleicher Fake-Hintergrund wie Header */
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay für das Menü */
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+            border-radius: 0 0 0 10px;
+        }
+
+        .menu-toggle:checked ~ .menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+            background-color: white;
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle:checked ~ .menu-button span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -5px);
+            background-color: white;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu li:last-child {
+            border-bottom: none;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background-color: rgba(61, 86, 110, 0.5);
+            color: white;
+        }
+
+        /* Hauptinhalt mit dunkelgrauer Schrift */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem;
+            color: #2c3e50;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .intro h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        /* Termine spezifische Styles */
+        .termine-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border-top: 6px solid #c0d110; /* Grün für Termine */
+        }
+
+        .termine-container h2 {
+            color: #c0d110;
+            margin: 0 0 2.5rem 0;
+            font-size: 1.8rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .termine-container h3 {
+            color: #c0d110;
+            margin: 2.5rem 0 1.5rem 0;
+            font-size: 1.5rem;
+        }
+
+        .termine-container p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .info-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #c0d110;
+            font-size: 1rem;
+        }
+
+        /* Tabelle Styles */
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .timetable th {
+            background-color: #c0d110;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            border: 1px solid #a9b80e;
+        }
+
+        .timetable td {
+            padding: 1rem;
+            border: 1px solid #eaeaea;
+            vertical-align: top;
+        }
+
+        .timetable tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        .timetable tr:hover {
+            background-color: rgba(192, 209, 16, 0.1); /* Hellgrün für Hover */
+        }
+
+        .highlight {
+            background-color: rgba(192, 209, 16, 0.15) !important;
+            font-weight: 600;
+        }
+
+        .holiday {
+            background-color: rgba(192, 209, 16, 0.08) !important;
+            color: #2c3e50;
+        }
+
+        .event-time {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .event-detail {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        .semester-divider {
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .semester-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #eaeaea;
+            z-index: 1;
+        }
+
+        .semester-divider h3 {
+            display: inline-block;
+            background-color: white;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+            color: #c0d110;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #c0d110;
+            color: #2c3e50;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #a9b80e;
+        }
+
+        /* Footer - Transparent mit gleichem Design wie Header */
+        footer {
+            background-color: rgba(52, 73, 94, 0.7);
+            color: white;
+            padding: 1.2rem 2rem;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background-image: url('001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Overlay für den Footer */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(52, 73, 94, 0.7);
+            z-index: -1;
+        }
+
+        .footer-left {
+            font-size: 1rem;
+        }
+
+        .footer-contact {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-end;
+            }
+            
+            .footer-contact {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+            
+            .contact-info {
+                display: none;
+            }
+            
+            main {
+                padding: 2rem 1rem 1rem;
+            }
+            
+            .intro h1 {
+                font-size: 1.8rem;
+            }
+            
+            .termine-container {
+                padding: 1.5rem;
+            }
+            
+            .termine-container h2 {
+                font-size: 1.5rem;
+            }
+            
+            .termine-container h3 {
+                font-size: 1.3rem;
+            }
+            
+            /* Responsive Tabelle */
+            .timetable {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .timetable th,
+            .timetable td {
+                padding: 0.8rem 0.5rem;
+                min-width: 120px;
+            }
+            
+            .event-time {
+                white-space: normal;
+            }
+            
+            footer {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            
+            .footer-contact {
+                align-items: center;
+                gap: 1.5rem;
+            }
+            
+            .footer-logo {
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="logo">
+        </div>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        
+        <nav class="menu">
+            <ul>
+                <li><a href="Aktuelles.html">Aktuelles</a></li>
+                <li><a href="UnsereSchule.html">Unsere Schule</a></li>
+                <li><a href="Termine.html">Termine</a></li>
+                <li><a href="Kontakt.html">Kontakt</a></li>
+                <li><a href="Impressum.html">Impressum</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>     
+        <section class="termine-container">
+            <h2>Terminplan im Schuljahr 2025/2026</h2>
+            
+            <div class="info-box">
+                <p><strong>Stand:</strong> 16.11.2025</p>
+                <p><strong>Hinweis:</strong> Änderungen vorbehalten. Bitte beachten Sie auch die aktuellen Mitteilungen in der Schule.</p>
+            </div>
+            
+            <h3>1. Halbjahr</h3>
+            
+            <table class="timetable">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Wochentag</th>
+                        <th>Uhrzeit</th>
+                        <th>Termin</th>
+                        <th>Besonderheit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight">
+                        <td><strong>22.08.2025</strong></td>
+                        <td><strong>Freitag</strong></td>
+                        <td class="event-time"><strong>9.00-12.00 Uhr</strong></td>
+                        <td class="event-title">Planungskonferenz Kollegium</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>25.08.2025</td>
+                        <td>Montag</td>
+                        <td class="event-time">8.00 - 16.00 Uhr</td>
+                        <td class="event-title">Erste-Hilfe-Kurs Team</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>26.08.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">9.00 - 12.00 Uhr</td>
+                        <td class="event-title">Teamkonferenz</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>27.08.2025</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time">8.00 - 11.35 Uhr</td>
+                        <td class="event-title">Erster Schultag Jg. 2-4</td>
+                        <td></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>28.08.2025</strong></td>
+                        <td><strong>Donnerstag</strong></td>
+                        <td class="event-time">
+                            <strong>8.30 Uhr</strong> (d-Zweig)<br>
+                            <strong>9.30 Uhr</strong> (c-Zweig)<br>
+                            <strong>10.30 Uhr</strong> (b-Zweig)<br>
+                            <strong>11.30 Uhr</strong> (a-Zweig)
+                        </td>
+                        <td class="event-title">Einschulung</td>
+                        <td class="event-detail">auf dem Schulgelände</td>
+                    </tr>
+                    <tr>
+                        <td>29.08.2025</td>
+                        <td>Freitag</td>
+                        <td class="event-time">9.00 Uhr</td>
+                        <td class="event-title">Einschulungsgottesdienst</td>
+                        <td class="event-detail">auf dem Schulgelände</td>
+                    </tr>
+                    <tr>
+                        <td>02.09.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">13.45-15.45 Uhr</td>
+                        <td class="event-title">Team Jg</td>
+                        <td class="event-detail">Planung 1.HJ</td>
+                    </tr>
+                    <tr>
+                        <td>04.09.2025</td>
+                        <td>Donnerstag</td>
+                        <td class="event-time">12.30-14.00 Uhr</td>
+                        <td class="event-title">Informationsveranstaltung für den Übergang GL-Kinder</td>
+                        <td class="event-detail">SoSo-Team</td>
+                    </tr>
+                    <tr>
+                        <td>09.09.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">13.45-15.45 Uhr</td>
+                        <td class="event-title">Team M/ SoSo</td>
+                        <td class="event-detail">Ni SLDB</td>
+                    </tr>
+                    <tr>
+                        <td>09.09.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">18.00 Uhr</td>
+                        <td class="event-title">Infoveranstaltung Zukünftige</td>
+                        <td class="event-detail">Ni, Si, Hp, Klei, Ve</td>
+                    </tr>
+                    <tr>
+                        <td>10.09.2025</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time">8.15 - 9.45 Uhr</td>
+                        <td class="event-title">Morgen der Offenen Tür</td>
+                        <td class="event-detail">alle</td>
+                    </tr>
+                    <tr>
+                        <td>12.09.2025</td>
+                        <td>Freitag</td>
+                        <td class="event-time">15.00-17.00 Uhr</td>
+                        <td class="event-title">Stadtteilrallye</td>
+                        <td class="event-detail">Si,Bo,Cz,Hi,Leu,Roß,Sch</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>03.10.2025</strong></td>
+                        <td><strong>Freitag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Tag der deutschen Einheit</td>
+                        <td class="event-detail">Feiertag</td>
+                    </tr>
+                    <tr>
+                        <td>02.10.2025</td>
+                        <td>Donnerstag</td>
+                        <td class="event-time">8.00-16.00 Uhr</td>
+                        <td class="event-title">Päd. Ganztagkonferenz</td>
+                        <td class="event-detail">Mit Notbetreuung für angemeldete Kinder</td>
+                    </tr>
+                    <tr>
+                        <td>06.10.2025</td>
+                        <td>Montag</td>
+                        <td class="event-time">8.00-16.00 Uhr</td>
+                        <td class="event-title">Päd. Ganztagskonferenz</td>
+                        <td class="event-detail">Mit Notbetreuung für angemeldete Kinder</td>
+                    </tr>
+                    <tr>
+                        <td>10.10.2025</td>
+                        <td>Freitag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Gemeinsames Herbst-Singen</td>
+                        <td class="event-detail">auf dem Schulgelände</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td colspan="5" style="text-align: center; font-weight: bold; background-color: rgba(192, 209, 16, 0.15); color: #2c3e50;">
+                            Herbstferien 13.10 - 24.10.2025
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>27.10.-07.11.2025</td>
+                        <td>individuell</td>
+                        <td class="event-time">individuell</td>
+                        <td class="event-title">Übergangsgespräche</td>
+                        <td class="event-detail">alle KL</td>
+                    </tr>
+                    <tr>
+                        <td>28.10.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">18.00 Uhr</td>
+                        <td class="event-title">Schulkonferenz</td>
+                        <td class="event-detail">gewählte Mitglieder</td>
+                    </tr>
+                    <tr>
+                        <td>05.11.2025</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time">ab 17.00 Uhr</td>
+                        <td class="event-title">Sankt Martin</td>
+                        <td class="event-detail">alle</td>
+                    </tr>
+                    <tr>
+                        <td>10.11.-21.11.2025</td>
+                        <td>individuell</td>
+                        <td class="event-time">individuell</td>
+                        <td class="event-title">Elternsprechtage Jg. 1-3</td>
+                        <td class="event-detail">alle KL</td>
+                    </tr>
+                    <tr>
+                        <td>11.11.2025</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">vormittags</td>
+                        <td class="event-title">Weckmannteilen</td>
+                        <td class="event-detail">alle KL</td>
+                    </tr>
+                    <tr>
+                        <td>28.11.2025</td>
+                        <td>Freitag</td>
+                        <td class="event-time">16.00-18.00 Uhr</td>
+                        <td class="event-title">Lichterfest</td>
+                        <td class="event-detail">alle</td>
+                    </tr>
+                    <tr>
+                        <td>01.12.-02.12.2025</td>
+                        <td>Mo - Di</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Nachmeldung Schulanmeldung</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>08.12.2025</td>
+                        <td>Montag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Adventssingen</td>
+                        <td class="event-detail">a- und c-Team</td>
+                    </tr>
+                    <tr>
+                        <td>15.12.2025</td>
+                        <td>Montag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Adventssingen</td>
+                        <td class="event-detail">b- und d-Team</td>
+                    </tr>
+                    <tr>
+                        <td>15.-17.12.2025</td>
+                        <td>Mo-Mi</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zahnarzt</td>
+                        <td class="event-detail">alle Klassen</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td colspan="5" style="text-align: center; font-weight: bold; background-color: rgba(192, 209, 16, 0.15); color: #2c3e50;">
+                            Weihnachtsferien 22.12.2025 - 06.01.2026
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>07.01.2026</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time">8.00-16.00 Uhr</td>
+                        <td class="event-title">Päd. Ganztagskonferenz</td>
+                        <td class="event-detail">Mit Notbetreuung für angemeldete Kinder</td>
+                    </tr>
+                    <tr>
+                        <td>20.01.2026</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">ab 13.45 Uhr</td>
+                        <td class="event-title">Zeugniskonferenz</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>04.02.2026</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 3</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>05.02.2026</td>
+                        <td>Donnerstag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 4</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="semester-divider">
+                <h3>2. Halbjahr</h3>
+            </div>
+            
+            <table class="timetable">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Wochentag</th>
+                        <th>Uhrzeit</th>
+                        <th>Termin</th>
+                        <th>Besonderheit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" style="text-align: center; font-weight: bold; background-color: rgba(192, 209, 16, 0.15); color: #2c3e50;">
+                            Beginn 2. Halbjahr 09.02.2026
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>10.02.2026</td>
+                        <td>Dienstag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">2. Klassenpflegschaftssitzung</td>
+                        <td class="event-detail">alle Klassen</td>
+                    </tr>
+                    <tr>
+                        <td>13.02.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Karnevalsfeier</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>16.02.2026</strong></td>
+                        <td><strong>Montag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Rosenmontag (1. beweglicher Ferientag)</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>17.02.2026</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">8.00-16.00 Uhr</td>
+                        <td class="event-title">Ganztagskonferenz mit dem ganzen Team</td>
+                        <td class="event-detail">Ohne Notbetreuung</td>
+                    </tr>
+                    <tr>
+                        <td>23.02.-25.02.2026</td>
+                        <td>Mo-Mi</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Klassenfahrt b-Zweig</td>
+                        <td class="event-detail">Kinder der M5/M6/M7/M8</td>
+                    </tr>
+                    <tr>
+                        <td>04.03.-06.03.2026</td>
+                        <td>Mi-Fr</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Klassenfahrt c-Zweig</td>
+                        <td class="event-detail">Kinder der M9/M10/M11/M12</td>
+                    </tr>
+                    <tr>
+                        <td>19.03.2026</td>
+                        <td>Donnerstag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Känguruwettbewerb</td>
+                        <td class="event-detail">Kinder aus Jg. 3/4</td>
+                    </tr>
+                    <tr>
+                        <td>27.03.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Gemeinsames Oster-Singen</td>
+                        <td class="event-detail">auf dem Schulgelände</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td colspan="5" style="text-align: center; font-weight: bold; background-color: rgba(192, 209, 16, 0.15); color: #2c3e50;">
+                            Osterferien 30.03. - 11.04.2026
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>13.04.-28.04.2026</td>
+                        <td>individuell</td>
+                        <td class="event-time">individuell</td>
+                        <td class="event-title">Elternsprechtag Jg 1-3</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>24.04.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Spiel- und Sportfest</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>01.05.2026</strong></td>
+                        <td><strong>Freitag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Maifeiertag</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>04.05.2026</td>
+                        <td>Montag</td>
+                        <td class="event-time">
+                            8.00-10.00 Uhr (b-Zweig)<br>
+                            10.00-12.00 Uhr (c-Zweig)
+                        </td>
+                        <td class="event-title">Fahrradtraining</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>05.05.2026</td>
+                        <td>Dienstag</td>
+                        <td class="event-time">10.00-12.00 Uhr</td>
+                        <td class="event-title">Fahrradtraining a-Zweig</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>14.05.2026</strong></td>
+                        <td><strong>Donnerstag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Christi Himmelfahrt (Feiertag)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>15.05.2026</strong></td>
+                        <td><strong>Freitag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">2. beweglicher Ferientag</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>25.05.2026</strong></td>
+                        <td><strong>Montag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Pfingstmontag</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>27.05.-29.05.2026</td>
+                        <td>Mi-Fr</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Projekttage zur Nachhaltigkeit</td>
+                        <td class="event-detail">alle</td>
+                    </tr>
+                    <tr>
+                        <td>29.05.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time">
+                            14.30 Uhr (Aufbau)<br>
+                            15-18 Uhr (Trödelmarkt)
+                        </td>
+                        <td class="event-title">Trödelmarkt</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>04.06.2026</strong></td>
+                        <td><strong>Donnerstag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Fronleichnam (Feiertag)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td><strong>05.06.2026</strong></td>
+                        <td><strong>Freitag</strong></td>
+                        <td class="event-time"></td>
+                        <td class="event-title">3. beweglicher Ferientag</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>19.06.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time">8.00-10.00 Uhr</td>
+                        <td class="event-title">Fahrradprüfung</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>13.07.2026</td>
+                        <td>Montag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>14.07.2026</td>
+                        <td>Dienstag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 2</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>15.07.2026</td>
+                        <td>Mittwoch</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 3</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>16.07.2026</td>
+                        <td>Donnerstag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Zeugnisausgabe Jg. 4 / Abschlussfeier</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>17.07.2026</td>
+                        <td>Freitag</td>
+                        <td class="event-time"></td>
+                        <td class="event-title">Abschiedsfeier in der Klasse, letzter Schultag</td>
+                        <td></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td colspan="5" style="text-align: center; font-weight: bold; background-color: rgba(192, 209, 16, 0.15); color: #2c3e50;">
+                            Sommerferien 20.07.2026 - 01.09.2026
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="info-box">
+                <p><strong>Hinweis:</strong> Es fehlen noch:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Tag der Schulvereinbarungen/Stopptag -- 1.HJ</li>
+                    <li>Gemeinsamer Theaterbesuch</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <p>&copy;2025 Astrid-Lindgren-Schule Duisburg</p>
+        </div>
+        
+        <div class="footer-contact">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        
+        <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="footer-logo">
+    </footer>
+</body>
+</html>
