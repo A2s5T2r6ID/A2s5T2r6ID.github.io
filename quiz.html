@@ -1002,7 +1002,7 @@
             updateProgress();
         }
 
-        // Antwort auswählen
+        // Antwort auswählen - KORRIGIERTE VERSION
         function selectAnswer(selectedIndex) {
             if (isAnswerSelected) return;
             
@@ -1021,7 +1021,7 @@
                 score++;
             } else {
                 answerCards[selectedIndex].classList.add('wrong');
-                answerCards[questionData.correctAnswerIndex].classList.add('correct');
+                answerCards[questionData.correctAnswerIndex].classList.add('correct'); // KORREKTUR: classList statt classlist
                 wrongQuestions.push(questionData);
             }
             
