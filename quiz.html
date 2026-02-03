@@ -634,19 +634,6 @@
             </ul>
         </nav>
     </header>
-
-   <!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - Astrid-Lindgren-Schule Duisburg</title>
-    <style>
-        /* [Alle CSS-Stile bleiben gleich wie vorher] */
-    </style>
-</head>
-<body>
-    <!-- [Header bleibt gleich] -->
     
     <main>
         <section class="intro">
@@ -768,22 +755,20 @@
             xhr.send();
         }
 
-        // Text in Fragen parsen - KORRIGIERTE VERSION
+        // Text in Fragen parsen - VEREINFACHTE VERSION (ohne #)
         function parseQuestionsFromText(text) {
-            const lines = text.split('\n').filter(line => line.trim() !== '');
+            // Teile den Text in Zeilen und filtere leere Zeilen
+            const lines = text.split('\n')
+                .map(line => line.trim())
+                .filter(line => line !== '');
             
-            questions = lines.map(line => {
-                // Zuerst das # am Ende entfernen (falls vorhanden)
-                let cleanLine = line.trim();
+            console.log('Gefundene Zeilen:', lines);
+            
+            questions = lines.map((line, index) => {
+                console.log(`Verarbeite Zeile ${index + 1}: "${line}"`);
                 
-                // Entferne # und alles danach bis zum Zeilenende
-                // Berücksichtigt auch Fälle wo # in der Antwort vorkommen könnte
-                const hashIndex = cleanLine.indexOf('#');
-                if (hashIndex !== -1) {
-                    cleanLine = cleanLine.substring(0, hashIndex).trim();
-                }
-                
-                const parts = cleanLine.split(' - ');
+                // Teile die Zeile an den Bindestrichen (mit Leerzeichen)
+                const parts = line.split(' - ');
                 
                 // Frage ist der erste Teil
                 const question = parts[0].trim();
@@ -795,26 +780,32 @@
                 for (let i = 1; i < parts.length; i++) {
                     let answer = parts[i].trim();
                     
-                    // Prüfe, ob dies die korrekte Antwort ist
+                    // Prüfe, ob dies die korrekte Antwort ist (endet mit *)
                     if (answer.endsWith('*')) {
+                        // Entferne das * und trimme
                         answer = answer.slice(0, -1).trim();
                         correctAnswerIndex = i - 1;
                     }
                     
-                    // Stelle sicher, dass keine #-Zeichen mehr enthalten sind
-                    answer = answer.replace(/#/g, '').trim();
-                    
                     answers.push(answer);
                 }
                 
+                // Debug-Ausgabe
+                console.log(`Frage ${index + 1}:`, {
+                    question: question,
+                    answers: answers,
+                    correctAnswerIndex: correctAnswerIndex
+                });
+                
                 // Validierung
                 if (answers.length !== 4) {
-                    console.warn(`Frage hat nicht genau 4 Antworten: "${question}"`);
+                    console.warn(`Zeile ${index + 1} hat ${answers.length} statt 4 Antworten: "${line}"`);
                 }
                 
                 if (correctAnswerIndex === -1) {
-                    console.warn(`Keine korrekte Antwort für Frage: "${question}"`);
-                    correctAnswerIndex = 0; // Fallback
+                    console.warn(`Zeile ${index + 1} hat keine korrekte Antwort (mit * markiert): "${line}"`);
+                    // Setze die erste Antwort als korrekt, falls keine markiert ist
+                    correctAnswerIndex = 0;
                 }
                 
                 return {
@@ -844,6 +835,8 @@
             showQuestion();
         }
 
+        // [Rest des Codes bleibt unverändert...]
+
         // Frage anzeigen
         function showQuestion() {
             isAnswerSelected = false;
@@ -866,10 +859,8 @@
                 }
             }
             
-            // Frage anzeigen
             questionCard.textContent = questionData.question;
             
-            // Status aktualisieren
             let roundText = '';
             if (currentRound === 1) {
                 roundText = 'Erste Runde';
@@ -881,7 +872,6 @@
             
             statusText.textContent = `Frage ${currentQuestionIndex + 1} von ${currentQuestions.length} (${roundText})`;
             
-            // Antworten erstellen
             questionData.answers.forEach((answer, index) => {
                 const answerCard = document.createElement('div');
                 answerCard.className = `answer-card ${cardColors[index % cardColors.length]} ${cardBackgrounds[index % cardBackgrounds.length]} no-overlay`;
