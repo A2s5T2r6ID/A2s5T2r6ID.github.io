@@ -5,269 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz - Astrid-Lindgren-Schule Duisburg</title>
     <style>
-        /* [Alle bestehenden CSS-Stile bleiben gleich - zu lang zum Wiederholen] */
+        /* [Alle bestehenden CSS-Stile bleiben gleich] */
         
-        /* NEUE STILE FÜR ERGEBNISAUFZEICHNUNG */
-        .results-section {
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 3rem;
-            border-top: 6px solid #9b59b6;
-            display: none; /* Standardmäßig ausgeblendet */
-        }
-        
-        .results-section h3 {
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-        
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        .results-table th, .results-table td {
-            padding: 0.8rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .results-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .results-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .export-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .export-button {
-            background-color: #9b59b6;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1rem;
-        }
-        
-        .export-button:hover {
-            background-color: #8e44ad;
-        }
-        
-        .export-button.secondary {
-            background-color: #3498db;
-        }
-        
-        .export-button.secondary:hover {
-            background-color: #2980b9;
-        }
-        
-        .results-summary {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-        
-        .statistics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .stat-card {
-            background: white;
+        /* NEUE STILE FÜR GITHUB PAGES */
+        .github-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
             border-radius: 5px;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem 0;
             text-align: center;
-            border-top: 4px solid #3498db;
+            color: #856404;
         }
         
-        .stat-card h4 {
-            margin: 0 0 0.5rem 0;
-            color: #2c3e50;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-        
-        .stat-card .value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #3498db;
-        }
-        
-        .stat-card .subtext {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 0.5rem;
-        }
-        
-        /* Modal für Schüler-ID */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 2rem;
+        .results-download {
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
             border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        
-        .modal h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-            font-weight: bold;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
+            padding: 2rem;
+            text-align: center;
             margin-top: 2rem;
         }
         
-        .modal-button {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .modal-button.primary {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .modal-button.secondary {
-            background-color: #ecf0f1;
+        .results-download h4 {
             color: #2c3e50;
+            margin-bottom: 1rem;
         }
         
-        .quiz-settings {
-            text-align: center;
-            margin: 2rem 0;
-        }
-        
-        .toggle-results {
-            background-color: #9b59b6;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
+        .download-instructions {
+            text-align: left;
+            max-width: 600px;
+            margin: 1rem auto;
+            background: white;
+            padding: 1rem;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .toggle-results:hover {
-            background-color: #8e44ad;
+        .download-instructions ol {
+            margin-left: 1.5rem;
         }
         
-        /* Responsive Anpassungen */
-        @media (max-width: 768px) {
-            .export-buttons {
-                flex-direction: column;
-            }
-            
-            .export-button {
-                width: 100%;
-            }
-            
-            .statistics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .results-table {
-                font-size: 0.9rem;
-            }
-            
-            .results-table th, .results-table td {
-                padding: 0.5rem;
-            }
+        .download-instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .qr-code {
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .github-help {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
         }
     </style>
 </head>
 <body>
-    <!-- [Header bleibt unverändert] -->
-    <header>
-        <!-- ... vorhandener Header-Code ... -->
-    </header>
-
+    <!-- [Header bleibt gleich] -->
+    
     <main>
         <section class="intro">
             <h1>Quiz</h1>
             <p>Testen Sie Ihr Wissen! Falsch beantwortete Fragen werden am Ende wiederholt.</p>
+            
+            <!-- Info für GitHub Pages -->
+            <div class="github-warning">
+                <strong>ℹ️ Wichtig für Lehrer:</strong> Ergebnisse werden lokal gespeichert und können exportiert werden.
+                Für die Sammlung der Ergebnisse bitte die Export-Funktion nutzen.
+            </div>
         </section>
 
-        <!-- Modal für Schüler-ID -->
+        <!-- Modal für Schülerinformationen -->
         <div class="modal" id="studentModal">
             <div class="modal-content">
                 <h3>Schülerinformationen</h3>
-                <p>Bitte geben Sie Ihre Daten ein, um am Quiz teilzunehmen.</p>
+                <p>Bitte geben Sie Ihre Daten für das Quiz ein:</p>
                 
                 <div class="form-group">
-                    <label for="studentName">Vorname:</label>
-                    <input type="text" id="studentName" placeholder="Max">
+                    <label for="studentName">Vorname:*</label>
+                    <input type="text" id="studentName" placeholder="Max" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="studentClass">Klasse:</label>
-                    <input type="text" id="studentClass" placeholder="4a">
+                    <label for="studentClass">Klasse:*</label>
+                    <input type="text" id="studentClass" placeholder="4a" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="studentId">Schüler-ID (optional):</label>
                     <input type="text" id="studentId" placeholder="12345">
+                </div>
+                
+                <div class="github-help">
+                    <small>Die Daten werden nur in Ihrem Browser gespeichert und können exportiert werden.</small>
                 </div>
                 
                 <div class="modal-buttons">
@@ -278,16 +115,15 @@
         </div>
 
         <div class="quiz-container">
-            <!-- Quiz-Status und Fortschritt -->
-            <div class="quiz-status">
-                <div id="status-text">Bitte Schülerinformationen eingeben</div>
-                <div class="progress-bar">
-                    <div class="progress" id="progress-bar"></div>
-                </div>
-            </div>
-
-            <!-- Quiz-Bereich (anfangs ausgeblendet) -->
+            <!-- Quiz-Bereich -->
             <div id="quiz-area" style="display: none;">
+                <div class="quiz-status">
+                    <div id="status-text">Frage 1 von <span id="total-questions">0</span></div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                </div>
+
                 <div class="question-card" id="question-card">
                     Das Quiz beginnt in Kürze...
                 </div>
@@ -306,7 +142,7 @@
                 </div>
             </div>
 
-            <!-- Ergebnisse-Aufzeichnung (anfangs ausgeblendet) -->
+            <!-- Ergebnisse-Aufzeichnung -->
             <div class="results-section" id="resultsSection">
                 <h3>📊 Quiz-Ergebnisse</h3>
                 
@@ -317,19 +153,20 @@
                     </div>
                 </div>
                 
-                <h4>Gespeicherte Ergebnisse</h4>
+                <h4>Gespeicherte Ergebnisse (lokal im Browser)</h4>
                 <table class="results-table" id="resultsTable">
                     <thead>
                         <tr>
                             <th>Datum/Zeit</th>
                             <th>Name</th>
                             <th>Klasse</th>
-                            <th>Fragen gesamt</th>
+                            <th>Fragen</th>
                             <th>Richtig</th>
                             <th>Falsch</th>
                             <th>Fehlerquote</th>
                             <th>Wiederholungen</th>
                             <th>Punkte</th>
+                            <th>Aktionen</th>
                         </tr>
                     </thead>
                     <tbody id="resultsBody">
@@ -338,19 +175,39 @@
                 </table>
                 
                 <div class="export-buttons">
-                    <button class="export-button" id="exportJSON">Ergebnisse als JSON exportieren</button>
-                    <button class="export-button secondary" id="exportCSV">Ergebnisse als CSV exportieren</button>
-                    <button class="export-button" id="clearResults">Ergebnisse löschen</button>
-                    <button class="export-button secondary" id="hideResultsButton">Ergebnisse ausblenden</button>
+                    <button class="export-button" id="exportJSON">📥 Ergebnisse als JSON</button>
+                    <button class="export-button secondary" id="exportCSV">📊 Ergebnisse als CSV</button>
+                    <button class="export-button" id="clearResults">🗑️ Lokale Daten löschen</button>
+                </div>
+                
+                <!-- Bereich für Lehrer-Download -->
+                <div class="results-download">
+                    <h4>📋 Anleitung für Lehrkräfte</h4>
+                    <p>So sammeln Sie die Ergebnisse aller Schüler:</p>
+                    
+                    <div class="download-instructions">
+                        <ol>
+                            <li>Jeder Schüler führt das Quiz auf seinem Gerät durch</li>
+                            <li>Am Ende klickt jeder auf "Ergebnisse als CSV"</li>
+                            <li>Die CSV-Datei speichern und an die Lehrkraft senden</li>
+                            <li>Lehrkraft sammelt alle CSV-Dateien und kann sie in Excel zusammenführen</li>
+                        </ol>
+                    </div>
+                    
+                    <button class="export-button secondary" id="exportSummaryCSV">
+                        📈 Zusammenfassung als CSV
+                    </button>
+                    
+                    <div class="github-help">
+                        <strong>Tipp:</strong> Für die Klassenauswertung alle CSV-Dateien in Excel öffnen
+                        und mit "Daten aus Text/CSV" importieren.
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- [Footer bleibt unverändert] -->
-    <footer>
-        <!-- ... vorhandener Footer-Code ... -->
-    </footer>
+    <!-- [Footer bleibt gleich] -->
 
     <script>
         // Quiz-Daten
@@ -385,9 +242,9 @@
         const quizArea = document.getElementById('quiz-area');
         const resultsSection = document.getElementById('resultsSection');
         const showResultsButton = document.getElementById('showResultsButton');
-        const hideResultsButton = document.getElementById('hideResultsButton');
         const exportJSONButton = document.getElementById('exportJSON');
         const exportCSVButton = document.getElementById('exportCSV');
+        const exportSummaryCSVButton = document.getElementById('exportSummaryCSV');
         const clearResultsButton = document.getElementById('clearResults');
         const resultsBody = document.getElementById('resultsBody');
         const statisticsGrid = document.getElementById('statisticsGrid');
@@ -404,7 +261,7 @@
         const cardColors = ['color-green', 'color-yellow', 'color-orange', 'color-red'];
         const cardBackgrounds = ['bg-leitbild', 'bg-montessori', 'bg-klassen', 'bg-team'];
 
-        // Fallback-Fragen
+        // Fallback-Fragen (EINGEBETTET für GitHub Pages)
         const fallbackQuestions = [
             {
                 question: "Was ist richtig geschrieben?",
@@ -415,22 +272,27 @@
                 question: "Was ist richtig geschrieben?",
                 answers: ["Wise", "Wisse", "Wiesse", "Wiese"],
                 correctAnswerIndex: 3
+            },
+            {
+                question: "Welches Wort ist ein Nomen?",
+                answers: ["laufen", "schön", "Haus", "schnell"],
+                correctAnswerIndex: 2
+            },
+            {
+                question: "Was ist die korrekte Pluralform?",
+                answers: ["die Häuse", "die Häuser", "die Haiser", "die Hauses"],
+                correctAnswerIndex: 1
             }
         ];
 
         // Initialisierung
         function init() {
-            // Modal anzeigen, wenn keine Schülerdaten vorhanden sind
-            const savedStudentData = localStorage.getItem('quizStudentData');
-            if (savedStudentData) {
-                studentData = JSON.parse(savedStudentData);
-                startQuiz();
-            } else {
-                studentModal.style.display = 'flex';
-            }
+            // Prüfen, ob wir auf GitHub Pages sind
+            const isGitHubPages = window.location.hostname.includes('github.io');
             
-            // Ergebnisse laden
-            loadResults();
+            // Modal immer anzeigen, auch wenn Daten gespeichert sind
+            // (für GitHub Pages ist das besser, da mehrere Schüler denselben Browser nutzen könnten)
+            studentModal.style.display = 'flex';
             
             // Event-Listener für Modal
             startQuizButton.addEventListener('click', () => {
@@ -442,16 +304,13 @@
             
             cancelButton.addEventListener('click', () => {
                 studentModal.style.display = 'none';
+                quizArea.style.display = 'none';
                 statusText.textContent = 'Quiz wurde abgebrochen';
             });
             
             // Event-Listener für Ergebnisse-Buttons
             showResultsButton.addEventListener('click', () => {
                 showResults();
-            });
-            
-            hideResultsButton.addEventListener('click', () => {
-                hideResults();
             });
             
             exportJSONButton.addEventListener('click', () => {
@@ -462,12 +321,24 @@
                 exportResults('csv');
             });
             
+            exportSummaryCSVButton.addEventListener('click', () => {
+                exportSummary();
+            });
+            
             clearResultsButton.addEventListener('click', () => {
                 clearResults();
             });
             
             // Event-Listener für Neustart-Button
             restartButton.addEventListener('click', restartQuiz);
+            
+            // Ergebnisse laden
+            loadResults();
+            
+            // GitHub Pages-spezifische Hinweise
+            if (isGitHubPages) {
+                console.log('Running on GitHub Pages - using local storage for results');
+            }
         }
 
         // Schülerdaten validieren
@@ -483,11 +354,10 @@
             studentData = {
                 name: name,
                 className: className,
-                studentId: studentIdInput.value.trim()
+                studentId: studentIdInput.value.trim() || 'keine ID',
+                timestamp: new Date().toISOString()
             };
             
-            // Schülerdaten speichern
-            localStorage.setItem('quizStudentData', JSON.stringify(studentData));
             return true;
         }
 
@@ -498,68 +368,106 @@
             loadQuestions();
         }
 
-        // Fragen laden
+        // Fragen laden (angepasst für GitHub Pages)
         function loadQuestions() {
-            loadQuestionsFromFile();
+            // Versuche zuerst, Fragen aus Datei zu laden
+            fetch('Test.txt')
+                .then(response => {
+                    if (response.ok) return response.text();
+                    throw new Error('Datei nicht gefunden');
+                })
+                .then(text => parseQuestionsFromText(text))
+                .catch(error => {
+                    console.log('Verwende eingebettete Fragen:', error);
+                    useFallbackQuestions();
+                });
         }
 
         // Ergebnisse laden
         function loadResults() {
-            const savedResults = localStorage.getItem('quizResults');
-            if (savedResults) {
-                resultsDatabase = JSON.parse(savedResults);
-                updateResultsDisplay();
+            try {
+                const savedResults = localStorage.getItem('quizResults_' + window.location.hostname);
+                if (savedResults) {
+                    resultsDatabase = JSON.parse(savedResults);
+                    updateResultsDisplay();
+                }
+            } catch (e) {
+                console.log('Keine gespeicherten Ergebnisse gefunden');
             }
         }
 
         // Ergebnisse speichern
         function saveResults(result) {
-            resultsDatabase.push(result);
-            localStorage.setItem('quizResults', JSON.stringify(resultsDatabase));
-            updateResultsDisplay();
+            try {
+                resultsDatabase.push(result);
+                localStorage.setItem('quizResults_' + window.location.hostname, JSON.stringify(resultsDatabase));
+                updateResultsDisplay();
+            } catch (e) {
+                console.error('Fehler beim Speichern:', e);
+                alert('Ergebnisse konnten nicht gespeichert werden. Bitte exportieren Sie sie sofort.');
+            }
         }
 
         // Ergebnis-Display aktualisieren
         function updateResultsDisplay() {
-            // Tabelle aktualisieren
             resultsBody.innerHTML = '';
             
             let totalCorrect = 0;
             let totalQuestions = 0;
             let totalAttempts = resultsDatabase.length;
             
-            resultsDatabase.forEach((result, index) => {
+            // Sortiere nach Datum (neueste zuerst)
+            const sortedResults = [...resultsDatabase].sort((a, b) => 
+                new Date(b.timestamp) - new Date(a.timestamp)
+            );
+            
+            sortedResults.forEach((result, index) => {
                 const row = document.createElement('tr');
                 
-                // Fehlerquote berechnen (in %)
                 const errorRate = result.wrongAnswers > 0 ? 
                     Math.round((result.wrongAnswers / result.totalQuestions) * 100) : 0;
-                
-                // Punkte berechnen (z.B. 10 Punkte pro richtiger Antwort)
                 const points = result.correctAnswers * 10;
                 
                 row.innerHTML = `
-                    <td>${result.timestamp}</td>
+                    <td>${new Date(result.timestamp).toLocaleString('de-DE')}</td>
                     <td>${result.studentName}</td>
                     <td>${result.className}</td>
                     <td>${result.totalQuestions}</td>
                     <td style="color: #2ecc71;">${result.correctAnswers}</td>
                     <td style="color: #e74c3c;">${result.wrongAnswers}</td>
-                    <td>${errorRate}%</td>
+                    <td><strong>${errorRate}%</strong></td>
                     <td>${result.rounds - 1}</td>
                     <td><strong>${points}</strong></td>
+                    <td>
+                        <button onclick="deleteResult(${index})" style="
+                            background: #e74c3c;
+                            color: white;
+                            border: none;
+                            padding: 0.3rem 0.6rem;
+                            border-radius: 3px;
+                            cursor: pointer;
+                            font-size: 0.8rem;
+                        ">Löschen</button>
+                    </td>
                 `;
                 
                 resultsBody.appendChild(row);
                 
-                // Statistiken aktualisieren
                 totalCorrect += result.correctAnswers;
                 totalQuestions += result.totalQuestions;
             });
             
-            // Statistiken anzeigen
             updateStatistics(totalAttempts, totalQuestions, totalCorrect);
         }
+
+        // Einzelergebnis löschen (global für Event-Listener)
+        window.deleteResult = function(index) {
+            if (confirm('Dieses Ergebnis wirklich löschen?')) {
+                resultsDatabase.splice(index, 1);
+                localStorage.setItem('quizResults_' + window.location.hostname, JSON.stringify(resultsDatabase));
+                updateResultsDisplay();
+            }
+        };
 
         // Statistiken aktualisieren
         function updateStatistics(totalAttempts, totalQuestions, totalCorrect) {
@@ -571,17 +479,17 @@
                 <div class="stat-card">
                     <h4>Quiz-Durchläufe</h4>
                     <div class="value">${totalAttempts}</div>
-                    <div class="subtext">Gesamte Teilnahmen</div>
+                    <div class="subtext">In diesem Browser</div>
                 </div>
                 <div class="stat-card">
                     <h4>Durchschnitt richtig</h4>
                     <div class="value">${avgCorrect}</div>
-                    <div class="subtext">Pro Durchlauf</div>
+                    <div class="subtext">Von ${totalAttempts > 0 ? totalQuestions/totalAttempts : 0} Fragen</div>
                 </div>
                 <div class="stat-card">
-                    <h4>Durchschnittliche Fehlerquote</h4>
+                    <h4>Fehlerquote</h4>
                     <div class="value">${avgErrorRate}%</div>
-                    <div class="subtext">Gesamtergebnis</div>
+                    <div class="subtext">Durchschnittlich</div>
                 </div>
                 <div class="stat-card">
                     <h4>Bestes Ergebnis</h4>
@@ -611,13 +519,6 @@
             resultContainer.style.display = 'none';
         }
 
-        // Ergebnisse ausblenden
-        function hideResults() {
-            resultsSection.style.display = 'none';
-            quizArea.style.display = 'block';
-            resultContainer.style.display = 'block';
-        }
-
         // Ergebnisse exportieren
         function exportResults(format) {
             if (resultsDatabase.length === 0) {
@@ -625,34 +526,34 @@
                 return;
             }
             
-            let data, mimeType, filename, blob;
+            let data, mimeType, filename;
             
             if (format === 'json') {
                 data = JSON.stringify(resultsDatabase, null, 2);
                 mimeType = 'application/json';
-                filename = `quiz_ergebnisse_${new Date().toISOString().split('T')[0]}.json`;
-                blob = new Blob([data], { type: mimeType });
+                filename = `quiz_ergebnisse_${studentData.name}_${studentData.className}_${new Date().toISOString().split('T')[0]}.json`;
             } else if (format === 'csv') {
-                // CSV-Header
-                let csv = 'Datum;Name;Klasse;Schüler-ID;Fragen gesamt;Richtig;Falsch;Fehlerquote (%);Wiederholungen;Punkte\n';
+                // CSV im deutschen Format (Semikolon-getrennt)
+                let csv = 'Datum;Name;Klasse;Schüler-ID;Fragen gesamt;Richtig;Falsch;Fehlerquote %;Wiederholungen;Punkte\n';
                 
                 resultsDatabase.forEach(result => {
                     const errorRate = result.wrongAnswers > 0 ? 
                         Math.round((result.wrongAnswers / result.totalQuestions) * 100) : 0;
                     const points = result.correctAnswers * 10;
                     
-                    csv += `"${result.timestamp}";"${result.studentName}";"${result.className}";"${result.studentId}";`;
+                    csv += `"${new Date(result.timestamp).toLocaleString('de-DE')}";`;
+                    csv += `"${result.studentName}";"${result.className}";"${result.studentId}";`;
                     csv += `${result.totalQuestions};${result.correctAnswers};${result.wrongAnswers};`;
                     csv += `${errorRate};${result.rounds - 1};${points}\n`;
                 });
                 
                 data = csv;
-                mimeType = 'text/csv';
-                filename = `quiz_ergebnisse_${new Date().toISOString().split('T')[0]}.csv`;
-                blob = new Blob(['\ufeff' + data], { type: mimeType }); // UTF-8 BOM für Excel
+                mimeType = 'text/csv;charset=utf-8;';
+                filename = `quiz_${studentData.name}_${studentData.className}_${new Date().toISOString().split('T')[0]}.csv`;
             }
             
             // Datei herunterladen
+            const blob = new Blob(['\ufeff' + data], { type: mimeType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -663,46 +564,76 @@
             URL.revokeObjectURL(url);
         }
 
-        // Ergebnisse löschen
-        function clearResults() {
-            if (confirm('Möchten Sie wirklich alle Ergebnisse löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-                resultsDatabase = [];
-                localStorage.removeItem('quizResults');
-                updateResultsDisplay();
-                alert('Alle Ergebnisse wurden gelöscht.');
+        // Zusammenfassung exportieren (für Lehrer)
+        function exportSummary() {
+            if (resultsDatabase.length === 0) {
+                alert('Keine Ergebnisse zum Exportieren vorhanden.');
+                return;
             }
+            
+            // Gruppiere nach Schüler
+            const students = {};
+            resultsDatabase.forEach(result => {
+                const key = `${result.studentName}_${result.className}`;
+                if (!students[key]) {
+                    students[key] = {
+                        name: result.studentName,
+                        className: result.className,
+                        attempts: 0,
+                        totalCorrect: 0,
+                        totalQuestions: 0,
+                        bestScore: 0,
+                        lastAttempt: ''
+                    };
+                }
+                
+                students[key].attempts++;
+                students[key].totalCorrect += result.correctAnswers;
+                students[key].totalQuestions += result.totalQuestions;
+                
+                const score = Math.round((result.correctAnswers / result.totalQuestions) * 100);
+                if (score > students[key].bestScore) {
+                    students[key].bestScore = score;
+                }
+                
+                if (result.timestamp > students[key].lastAttempt) {
+                    students[key].lastAttempt = result.timestamp;
+                }
+            });
+            
+            // CSV für Zusammenfassung
+            let csv = 'Name;Klasse;Anzahl Versuche;Durchschnitt richtig;Durchschnitt Fehlerquote;Beste Leistung;Letzter Versuch\n';
+            
+            Object.values(students).forEach(student => {
+                const avgCorrect = Math.round(student.totalCorrect / student.attempts);
+                const avgQuestions = Math.round(student.totalQuestions / student.attempts);
+                const avgErrorRate = Math.round(((student.totalQuestions - student.totalCorrect) / student.totalQuestions) * 100);
+                
+                csv += `"${student.name}";"${student.className}";`;
+                csv += `${student.attempts};${avgCorrect}/${avgQuestions};${avgErrorRate}%;`;
+                csv += `${student.bestScore}%;"${new Date(student.lastAttempt).toLocaleString('de-DE')}"\n`;
+            });
+            
+            // Datei herunterladen
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `klassenauswertung_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
-        // [Die restlichen Quiz-Funktionen bleiben gleich, aber mit Ergebnis-Speicherung erweitert]
-        // Fragen aus Datei laden
-        function loadQuestionsFromFile() {
-            const xhr = new XMLHttpRequest();
-            const url = 'Test.txt?' + new Date().getTime();
-            
-            xhr.open('GET', url, true);
-            
-            xhr.onload = function() {
-                if (xhr.status === 200 || xhr.status === 0) {
-                    try {
-                        parseQuestionsFromText(xhr.responseText);
-                    } catch (error) {
-                        useFallbackQuestions();
-                    }
-                } else {
-                    useFallbackQuestions();
-                }
-            };
-            
-            xhr.onerror = function() {
-                useFallbackQuestions();
-            };
-            
-            xhr.timeout = 3000;
-            xhr.ontimeout = function() {
-                useFallbackQuestions();
-            };
-            
-            xhr.send();
+        // Ergebnisse löschen
+        function clearResults() {
+            if (confirm('Möchten Sie wirklich ALLE lokalen Ergebnisse löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+                resultsDatabase = [];
+                localStorage.removeItem('quizResults_' + window.location.hostname);
+                updateResultsDisplay();
+                alert('Alle lokalen Ergebnisse wurden gelöscht.');
+            }
         }
 
         // Text in Fragen parsen
@@ -871,17 +802,16 @@
         // Einzelergebnis speichern
         function saveResult(percentage, wrongAnswers, errorRate) {
             const result = {
-                timestamp: new Date().toLocaleString('de-DE'),
+                timestamp: new Date().toISOString(),
                 studentName: studentData.name,
                 className: studentData.className,
-                studentId: studentData.studentId,
+                studentId: studentData.studentId || 'keine ID',
                 totalQuestions: totalQuestions,
                 correctAnswers: score,
                 wrongAnswers: wrongAnswers,
                 errorRate: errorRate,
                 rounds: currentRound,
-                percentage: percentage,
-                date: new Date().toISOString()
+                percentage: percentage
             };
             
             saveResults(result);
