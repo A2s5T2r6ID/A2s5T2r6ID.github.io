@@ -634,7 +634,7 @@
             </ul>
         </nav>
     </header>
-    
+
     <main>
         <section class="intro">
             <h1>Quiz</h1>
@@ -667,7 +667,24 @@
         </div>
     </main>
 
-    <!-- [Footer bleibt gleich] -->
+    <footer>
+        <div class="footer-left">
+            <p>&copy;2025 Astrid-Lindgren-Schule Duisburg</p>
+        </div>
+        
+        <div class="footer-contact">
+            <div class="contact-item">
+                <img src="icon3.png" alt="Telefon" class="contact-icon">
+                <span>0203 - 332667</span>
+            </div>
+            <div class="contact-item">
+                <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+            </div>
+        </div>
+        
+        <img src="logo2.png" alt="Astrid-Lindgren-Schule Duisburg" class="footer-logo">
+    </footer>
 
     <script>
         // Quiz-Daten
@@ -755,7 +772,7 @@
             xhr.send();
         }
 
-        // Text in Fragen parsen - VEREINFACHTE VERSION (ohne #)
+        // Text in Fragen parsen - VEREINFACHT ohne #
         function parseQuestionsFromText(text) {
             // Teile den Text in Zeilen und filtere leere Zeilen
             const lines = text.split('\n')
@@ -834,8 +851,6 @@
             updateProgress();
             showQuestion();
         }
-
-        // [Rest des Codes bleibt unverändert...]
 
         // Frage anzeigen
         function showQuestion() {
