@@ -832,7 +832,7 @@
             xhr.send();
         }
 
-        // Text in Fragen parsen - MIT BILDFUNKTION
+        // Text in Fragen parsen - KORRIGIERTE VERSION
         function parseQuestionsFromText(text) {
             // Teile den Text in Zeilen und filtere leere Zeilen
             const lines = text.split('\n')
@@ -847,27 +847,41 @@
                 // Teile die Zeile an den Bindestrichen (mit Leerzeichen)
                 const parts = line.split(' - ');
                 
+                // Die letzten 5 Teile sollten sein: 4 Antworten + 1 Bildnummer
+                // Also: parts[0] = Frage, parts[1-4] = Antworten, parts[5] = Bildnummer
+                // Wir müssen also prüfen, ob der letzte Teil eine 4-stellige Zahl ist
+                
+                let imageNumber = "0000";
+                let actualParts = [...parts]; // Kopie der Parts
+                
+                // Prüfe, ob der letzte Teil eine 4-stellige Zahl ist
+                const lastPart = parts[parts.length - 1];
+                if (/^\d{4}$/.test(lastPart)) {
+                    imageNumber = lastPart;
+                    // Entferne die Bildnummer aus den Parts
+                    actualParts = parts.slice(0, parts.length - 1);
+                }
+                
+                // Jetzt sollten wir 5 Teile haben: Frage + 4 Antworten
+                if (actualParts.length !== 5) {
+                    console.warn(`Zeile ${index + 1} hat ${actualParts.length} Teile, aber 5 erwartet (Frage + 4 Antworten): "${line}"`);
+                }
+                
                 // Frage ist der erste Teil
-                const question = parts[0].trim();
-                
-                // Letzter Teil ist die Bildnummer (4-stellig)
-                const imageNumber = parts[parts.length - 1].trim();
-                
-                // Antworten sind alle Teile dazwischen (sollten 4 sein)
-                const answerParts = parts.slice(1, parts.length - 1);
+                const question = actualParts[0].trim();
                 
                 // Antworten extrahieren und korrekte Antwort finden
                 const answers = [];
                 let correctAnswerIndex = -1;
                 
-                for (let i = 0; i < answerParts.length; i++) {
-                    let answer = answerParts[i].trim();
+                for (let i = 1; i < actualParts.length; i++) {
+                    let answer = actualParts[i].trim();
                     
                     // Prüfe, ob dies die korrekte Antwort ist (endet mit *)
                     if (answer.endsWith('*')) {
                         // Entferne das * und trimme
                         answer = answer.slice(0, -1).trim();
-                        correctAnswerIndex = i;
+                        correctAnswerIndex = i - 1;
                     }
                     
                     answers.push(answer);
@@ -878,7 +892,9 @@
                     question: question,
                     answers: answers,
                     correctAnswerIndex: correctAnswerIndex,
-                    imageNumber: imageNumber
+                    imageNumber: imageNumber,
+                    partsCount: parts.length,
+                    actualPartsCount: actualParts.length
                 });
                 
                 // Validierung
@@ -890,11 +906,6 @@
                     console.warn(`Zeile ${index + 1} hat keine korrekte Antwort (mit * markiert): "${line}"`);
                     // Setze die erste Antwort als korrekt, falls keine markiert ist
                     correctAnswerIndex = 0;
-                }
-                
-                // Prüfe Bildnummer-Format
-                if (!/^\d{4}$/.test(imageNumber)) {
-                    console.warn(`Zeile ${index + 1} hat keine gültige 4-stellige Bildnummer: "${imageNumber}"`);
                 }
                 
                 return {
@@ -953,7 +964,8 @@
             // Bild anzeigen oder ausblenden
             if (questionData.imageNumber && questionData.imageNumber !== "0000") {
                 imageCard.classList.remove('hidden');
-                imageCard.innerHTML = `<img src="${questionData.imageNumber}.jpg" alt="Illustration zur Frage" onerror="this.style.display='none'">`;
+                // Setze das Bild mit onerror-Handler für fehlende Bilder
+                imageCard.innerHTML = `<img src="${questionData.imageNumber}.jpg" alt="Illustration zur Frage" onerror="this.style.display='none'; this.parentElement.classList.add('hidden')">`;
             } else {
                 imageCard.classList.add('hidden');
                 imageCard.innerHTML = '';
@@ -1009,7 +1021,7 @@
                 score++;
             } else {
                 answerCards[selectedIndex].classList.add('wrong');
-                answerCards[questionData.correctAnswerIndex].classlist.add('correct');
+                answerCards[questionData.correctAnswerIndex].classList.add('correct');
                 wrongQuestions.push(questionData);
             }
             
