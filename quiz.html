@@ -747,8 +747,9 @@
         let currentQuestions = []; // Aktuelle Fragenliste (für die aktuelle Runde)
         let currentQuestionIndex = 0;
         let wrongQuestions = []; // Falsch beantwortete Fragen für die nächste Runde
-        let score = 0;
-        let totalQuestions = 0;
+        let correctAnswers = 0; // Korrekt beantwortete Fragen in der ERSTEN Runde
+        let totalQuestionsAsked = 0; // Insgesamt gestellte Fragen (über alle Runden)
+        let totalCorrectAnswers = 0; // Insgesamt richtig beantwortete Fragen (über alle Runden)
         let isAnswerSelected = false;
         let currentRound = 1;
         let loadedAdditionalFiles = new Set(); // Bereits geladene Zusatzdateien
@@ -986,8 +987,7 @@
             
             // Initialisiere currentQuestions mit Hauptfragen
             currentQuestions = [...mainQuestions];
-            totalQuestions = currentQuestions.length;
-            totalQuestionsSpan.textContent = totalQuestions;
+            totalQuestionsSpan.textContent = currentQuestions.length;
             updateProgress();
             showQuestion();
         }
@@ -1066,8 +1066,7 @@
             });
             
             currentQuestions = [...mainQuestions];
-            totalQuestions = currentQuestions.length;
-            totalQuestionsSpan.textContent = totalQuestions;
+            totalQuestionsSpan.textContent = currentQuestions.length;
             updateProgress();
             showQuestion();
         }
@@ -1146,6 +1145,9 @@
             // Leere wrongQuestions für die neue Runde
             wrongQuestions = [];
             
+            // Aktualisiere die Gesamtzahl der Fragen für die Statusanzeige
+            totalQuestionsSpan.textContent = currentQuestions.length;
+            
             updateProgress();
             showQuestion();
         }
@@ -1164,12 +1166,18 @@
                 card.style.cursor = 'not-allowed';
             });
             
+            // Zähle die gestellte Frage
+            totalQuestionsAsked++;
+            
             if (selectedIndex === questionData.correctAnswerIndex) {
                 answerCards[selectedIndex].classList.add('correct');
                 
-                // Nur in der ersten Runde Punkte vergeben
+                // Zähle die richtige Antwort
+                totalCorrectAnswers++;
+                
+                // In der ersten Runde zählen wir auch für die Ausgangsbewertung
                 if (currentRound === 1) {
-                    score++;
+                    correctAnswers++;
                 }
                 
                 // Frage wird nicht zu wrongQuestions hinzugefügt (da richtig beantwortet)
@@ -1219,7 +1227,12 @@
 
         // Ergebnisse anzeigen
         function showResults() {
-            const percentage = Math.round((score / totalQuestions) * 100);
+            // Berechne Prozentsatz basierend auf allen gestellten Fragen
+            let percentage = 0;
+            if (totalQuestionsAsked > 0) {
+                percentage = Math.round((totalCorrectAnswers / totalQuestionsAsked) * 100);
+            }
+            
             finalScore.textContent = `${percentage}%`;
             
             let message = '';
@@ -1233,7 +1246,7 @@
                 repeatInfo = `Sie haben ${currentRound - 1} Wiederholungsrunde(n) gebraucht. `;
             }
             
-            resultMessage.textContent = `${score} von ${totalQuestions} Fragen richtig beantwortet. ${repeatInfo}${message}`;
+            resultMessage.textContent = `${totalCorrectAnswers} von ${totalQuestionsAsked} Fragen richtig beantwortet. ${repeatInfo}${message}`;
             
             document.querySelector('.question-card').style.display = 'none';
             imageCard.style.display = 'none';
@@ -1246,7 +1259,9 @@
         function restartQuiz() {
             currentQuestionIndex = 0;
             wrongQuestions = [];
-            score = 0;
+            correctAnswers = 0;
+            totalQuestionsAsked = 0;
+            totalCorrectAnswers = 0;
             currentRound = 1;
             loadedAdditionalFiles.clear();
             additionalQuestions = [];
