@@ -229,15 +229,14 @@
             justify-content: center;
         }
 
-        /* NEUE Bild-Card */
+        /* GEÄNDERT: Bild-Card ohne farbige Kante - nur weiß mit dezenter Schattierung */
         .image-card {
             grid-column: span 2;
             background: white;
             border-radius: 8px;
             padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             margin-bottom: 2rem;
-            border-top: 6px solid #9b59b6;
             text-align: center;
             display: flex;
             align-items: center;
@@ -245,6 +244,7 @@
             min-height: 200px;
             max-height: 400px;
             overflow: hidden;
+            border: 1px solid #eee;
         }
 
         .image-card img {
