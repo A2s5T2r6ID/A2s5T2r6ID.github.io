@@ -304,64 +304,46 @@
         @media (max-width: 768px) {
             header {
                 padding: 0.7rem 1rem;
-                flex-wrap: wrap;
-                justify-content: space-between;
+                flex-wrap: nowrap; /* Verhindert Umbruch in zwei Zeilen */
             }
             
             .logo {
                 height: 50px;
             }
             
-            /* Kontakt-Info auf mobilen Geräten anzeigen */
+            /* Auf mobilen Geräten: Nur Telefonnummer anzeigen, E-Mail ausblenden */
             .contact-info {
-                display: flex !important; /* Wichtig, um display: none zu überschreiben */
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
-                width: 100%;
-                order: 3;
-                margin-top: 10px;
-                padding-top: 10px;
-                border-top: 1px solid rgba(255, 255, 255, 0.2);
+                display: flex !important;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            /* E-Mail auf mobilen Geräten ausblenden */
+            .contact-item:nth-child(2) {
+                display: none;
             }
             
             .contact-item {
                 font-size: 0.9rem;
                 gap: 0.5rem;
-                width: 100%;
             }
             
             .contact-icon {
                 height: 18px;
             }
             
-            /* Logo und Menü nebeneinander anordnen */
-            .logo-container {
-                order: 1;
-            }
-            
-            .menu-button {
-                order: 2;
-            }
-            
             .content {
-                padding-top: 100px; /* Mehr Platz für den höheren Header */
+                padding-top: 80px;
             }
             
-            .nav-button {
-                padding: 14px 28px;
-                font-size: 1.1rem;
-                min-width: 160px;
-            }
-            
+            /* Buttons auf mobilen Geräten entfernen */
             .buttons {
-                flex-direction: column;
-                gap: 15px;
-                margin-top: 180px; /* Angepasst für mobile Ansicht */
+                display: none;
             }
             
+            /* Indikatoren weiter nach oben, da keine Buttons vorhanden */
             .indicator {
-                bottom: 80px;
+                bottom: 60px;
             }
         }
         
@@ -377,6 +359,10 @@
             
             .logo {
                 height: 45px;
+            }
+            
+            .indicator {
+                bottom: 50px;
             }
         }
     </style>
