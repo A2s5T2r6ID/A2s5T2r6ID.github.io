@@ -284,6 +284,40 @@
             }
             .footer-contact { align-items: center; gap: 1.5rem; }
             .footer-logo { height: 35px; }
+            
+            /* Neue Styles für E-Mail-Probleme auf mobilen Geräten */
+            .kontakt-info-item.email-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .kontakt-info-item.email-item span {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-top: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .kontakt-info-item.email-item strong {
+                display: block;
+                margin-bottom: 2px;
+            }
+            
+            .contact-item.email-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .contact-item.email-item span {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-top: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
 </head>
@@ -297,7 +331,7 @@
                 <img src="icon3.png" alt="Telefon" class="contact-icon">
                 <span>0203 - 332667</span>
             </div>
-            <div class="contact-item">
+            <div class="contact-item email-item">
                 <img src="icon4.png" alt="E-Mail" class="contact-icon">
                 <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
             </div>
@@ -338,7 +372,7 @@
                                 <img src="icon2.png" alt="Fax" class="kontakt-icon">
                                 <span><strong>Telefax:</strong> 0203/334745</span>
                             </div>
-                            <div class="kontakt-info-item">
+                            <div class="kontakt-info-item email-item">
                                 <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
                                 <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
                             </div>
@@ -362,7 +396,7 @@
                                 <img src="icon2.png" alt="Fax" class="kontakt-icon">
                                 <span><strong>Telefax:</strong> 0203/334745</span>
                             </div>
-                            <div class="kontakt-info-item">
+                            <div class="kontakt-info-item email-item">
                                 <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
                                 <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
                             </div>
@@ -394,7 +428,7 @@
 
                         <p><br>IServ ist zusätzlich auch im Browser zu erreichen:</p>
                         <div class="person-details">
-                        <p><strong>IServ-Webadresse:</strong> <a href="https://du-als-monti-ggs.de" target="_blank">https://du-als-monti-ggs.de</a></p>
+                        <p><strong>IServ-Webadresse:</strong><br><a href="https://du-als-monti-ggs.de" target="_blank">https://du-als-monti-ggs.de</a></p>
                         <p><strong>Hinweis:</strong> Hier müssen jedes Mal ihre Zugangsdaten eingegeben werden!</p>
                         </div>
                     </div>
@@ -410,9 +444,9 @@
                     <div class="person-details">
                         <h4>IT-Support und Hilfe</h4>
                         <p>Bei anderen Problemen oder technischen Fragen wenden Sie sich bitte an:</p>
-                        <div class="kontakt-info-item">
+                        <div class="kontakt-info-item email-item">
                             <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
-                            <span><strong>E-Mail:</strong> marc.backhaus@du-als-monti-ggs.de</span>
+                            <span><strong>E-Mail:<br></strong> marc.backhaus@du-als-monti-ggs.de</span>
                         </div>
                     </div>
 
@@ -472,7 +506,7 @@
                 <img src="icon3.png" alt="Telefon" class="contact-icon">
                 <span>0203 - 332667</span>
             </div>
-            <div class="contact-item">
+            <div class="contact-item email-item">
                 <img src="icon4.png" alt="E-Mail" class="contact-icon">
                 <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
             </div>
