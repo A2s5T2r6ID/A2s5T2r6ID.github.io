@@ -285,38 +285,44 @@
             .footer-contact { align-items: center; gap: 1.5rem; }
             .footer-logo { height: 35px; }
             
-            /* Neue Styles für E-Mail-Probleme auf mobilen Geräten */
-            .kontakt-info-item.email-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .kontakt-info-item.email-item span {
-                display: block;
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
-                padding-top: 4px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .kontakt-info-item.email-item strong {
-                display: block;
-                margin-bottom: 2px;
-            }
-            
+            /* Neue verbesserte Styles für E-Mail auf mobilen Geräten */
+            .kontakt-info-item.email-item,
             .contact-item.email-item {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-wrap: wrap;
+                align-items: center;
             }
             
-            .contact-item.email-item span {
+            /* Icon und "E-Mail:" in derselben Zeile */
+            .kontakt-info-item.email-item .kontakt-icon,
+            .contact-item.email-item .contact-icon {
+                flex-shrink: 0;
+            }
+            
+            .kontakt-info-item.email-item strong,
+            .contact-item.email-item span:first-child {
+                flex-shrink: 0;
+                margin-right: 0.5rem;
+            }
+            
+            /* E-Mail-Adresse in neuer Zeile mit kleinerer Schrift */
+            .kontakt-info-item.email-item span:last-child,
+            .contact-item.email-item span:last-child {
                 display: block;
                 width: 100%;
+                font-size: 0.85rem; /* Deutlich kleinere Schrift */
                 overflow-x: auto;
                 white-space: nowrap;
-                padding-top: 4px;
+                margin-top: 0.3rem;
+                padding-top: 0.2rem;
                 -webkit-overflow-scrolling: touch;
+                color: inherit;
+                letter-spacing: -0.2px;
+            }
+            
+            /* Für Footer-E-Mail spezifische Anpassung */
+            .footer-contact .contact-item.email-item span:last-child {
+                text-align: center;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -333,6 +339,7 @@
             </div>
             <div class="contact-item email-item">
                 <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>E-Mail:</span>
                 <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
             </div>
         </div>
@@ -374,7 +381,8 @@
                             </div>
                             <div class="kontakt-info-item email-item">
                                 <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
-                                <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+                                <span><strong>E-Mail:</strong></span>
+                                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
                             </div>
                         </div>
                     </div>
@@ -398,7 +406,8 @@
                             </div>
                             <div class="kontakt-info-item email-item">
                                 <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
-                                <span><strong>E-Mail:</strong> GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
+                                <span><strong>E-Mail:</strong></span>
+                                <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
                             </div>
                         </div>
                     </div>
@@ -446,7 +455,8 @@
                         <p>Bei anderen Problemen oder technischen Fragen wenden Sie sich bitte an:</p>
                         <div class="kontakt-info-item email-item">
                             <img src="icon2.png" alt="E-Mail" class="kontakt-icon">
-                            <span><strong>E-Mail:<br></strong> marc.backhaus@du-als-monti-ggs.de</span>
+                            <span><strong>E-Mail:</strong></span>
+                            <span>marc.backhaus@du-als-monti-ggs.de</span>
                         </div>
                     </div>
 
@@ -508,6 +518,7 @@
             </div>
             <div class="contact-item email-item">
                 <img src="icon4.png" alt="E-Mail" class="contact-icon">
+                <span>E-Mail:</span>
                 <span>GGS.AstridLindgrenSchule@stadt-duisburg.de</span>
             </div>
         </div>
