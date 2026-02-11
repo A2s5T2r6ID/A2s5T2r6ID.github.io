@@ -443,17 +443,21 @@
         }
 
         /* Responsive Design */
+
+        /* --- ANGEpasst: Zentrierung im Tablet-Hochformat (bis 1100px) --- */
         @media (max-width: 1100px) {
             .contact-info {
                 flex-direction: column;
                 gap: 1rem;
-                align-items: flex-end;
+                align-items: center;   /* geändert von flex-end zu center */
+                text-align: center;    /* neu – für saubere Zentrierung */
             }
             
             .footer-contact {
                 flex-direction: column;
                 gap: 1rem;
-                align-items: flex-end;
+                align-items: center;   /* geändert von flex-end zu center */
+                text-align: center;    /* neu */
             }
         }
 
@@ -589,34 +593,42 @@
     </section>
     
     <section class="content-grid">
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Leitbild.html" class="card color-yellow bg-leitbild farbecht no-overlay">
             <h3>Unser Leitbild</h3>
         </a>
         
+        <!-- Diese Card behält ihre Eigenschaften -->
         <a href="MariaMontessori.html" class="card color-green bg-montessori farbecht no-overlay">
             <h3>Maria Montessori<br>Pädagogik</h3>
         </a>
         
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Klassen.html" class="card color-green bg-klassen farbecht no-overlay">
             <h3>Unsere Klassen</h3>
         </a>
 
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Team.html" class="card color-yellow bg-team farbecht no-overlay">
             <h3>Unser Team</h3>
         </a>
        
+       <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Projekte.html" class="card color-yellow no-overlay">
             <h3>Unsere Projekte</h3>
         </a> 
 
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Erziehungsvereinbarung.html" class="card color-green bg-logo farbecht no-overlay">
             <h3>Erziehungs-<br>vereinbarung</h3>
         </a>
         
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Foerderverein.html" class="card color-green bg-foerderverein farbecht no-overlay">
             <h3>Unser Förderverein</h3>
         </a>
 
+        <!-- GEÄNDERT: Überschrift jetzt mittig linksausgerichtet und größer -->
         <a href="Ganztag.html" class="card color-yellow farbecht no-overlay">
             <h3>Offener Ganztag</h3>
         </a>
